@@ -1,4 +1,8 @@
+import useTitle from "../hooks/useTitle"
+
 function Dashboard() {
+  useTitle('Dashboard | ' + import.meta.env.VITE_ADMIN_APP_NAME)
+
   return (
     <>
       {/* Card stats */}

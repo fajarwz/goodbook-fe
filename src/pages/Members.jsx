@@ -8,8 +8,11 @@ import Th from "../components/Table/Th"
 import Td from "../components/Table/Td"
 import ReactPaginate from 'react-paginate'; 
 import { useState } from "react"
+import useTitle from "../hooks/useTitle"
 
 function Members() {
+  useTitle('Members | ' + import.meta.env.VITE_ADMIN_APP_NAME)
+
   const [initialPage, setInitialPage] = useState(0);
   const [page, setPage] = useState(1);
 

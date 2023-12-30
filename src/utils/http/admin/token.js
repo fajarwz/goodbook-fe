@@ -59,10 +59,6 @@ export function getAuthRefreshToken() {
   return token
 }
 
-export function tokenLoader() {
-  return getAuthToken()
-}
-
 export function checkAuthLoader() {
   const token = getAuthToken()
 
