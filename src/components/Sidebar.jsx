@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import NotificationDropdown from "./NotificationDropdown";
 import UserDropdown from "./UserDropdown";
@@ -76,21 +76,21 @@ export default function Sidebar() {
             {/* Navigation */}
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               <li className="items-center">
-                <Link
-                  className="text-orange-500 hover:text-orange-600 text-xs uppercase py-3 font-bold block"
-                  to="/dashboard"
+                <NavLink
+                  className={({ isActive }) => (`text-xs uppercase py-3 font-bold block ${isActive ? 'active' : ''}`)}
+                  to="/admin/dashboard"
                 >
                   <i className="fas fa-tv opacity-75 mr-2 text-sm"></i> Dashboard
-                </Link>
+                </NavLink>
               </li>
 
               <li className="items-center">
-                <Link
-                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/"
+                <NavLink
+                  className={({ isActive }) => (`text-xs uppercase py-3 font-bold block ${isActive ? 'active' : ''}`)}
+                  to="/admin/members"
                 >
                   <i className="fas fa-user text-blueGray-400 mr-2 text-sm"></i> Members
-                </Link>
+                </NavLink>
               </li>
 
             </ul>
