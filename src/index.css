@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply text-black-default bg-sky-50
+  @apply text-black-default bg-white
 }
 
 main {
@@ -92,60 +92,12 @@ tbody {
   @apply h-11 w-80 border rounded-md border-gray-default p-3
 }
 
-/* error block */
-.error-block {
-  background-color: #f0d9e5;
-  margin: 1rem 0;
-  padding: 1rem;
-  border-radius: 4px;
-  color: #890b35;
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  text-align: left;
-}
-
-.error-block-icon {
-  font-size: 2rem;
-  width: 3rem;
-  height: 3rem;
-  color: #fff;
-  background-color: #890b35;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.error-block h2 {
-  color: inherit;
-  font-size: 1.25rem;
-  margin: 0;
-}
-
-.error-block p {
-  margin: 0;
-}
-
 /* loading indicator */
 .lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-  margin: 1rem 0;
+  @apply inline-block relative w-20 h-20 mx-0 my-4;
 }
 .lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border: 8px solid #e30d5b;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #e30d5b transparent transparent transparent;
+  @apply box-border block absolute w-16 h-16 animate-[lds-ring_1.2s_cubic-bezier(0.5,0,0.5,1)_infinite] m-2 rounded-[50%] border-8 border-solid border-[#e30d5b] border-[#e30d5b_transparent_transparent_transparent];
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;

@@ -6,7 +6,7 @@ function Admin() {
     return (
         <>
           <Sidebar />
-          <div className="relative md:ml-64 bg-blueGray-100">
+          <div className="relative md:ml-64">
             <Navbar />
             {/* Header */}
             <div className="relative bg-orange-500 md:pt-32 pb-4 pt-12">

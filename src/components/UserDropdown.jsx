@@ -1,7 +1,6 @@
 import React from "react";
 
 import { createPopper } from "@popperjs/core";
-import userImage from '../assets/img/team-1-800x800.jpg'
 import { logout } from '../utils/http/admin/auth';
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -9,7 +8,7 @@ import { getAuthUser } from "../utils/http/admin/token";
 
 const UserDropdown = () => {
   const navigate = useNavigate();
-  const { name: userName } = getAuthUser()
+  const { name: userName, image: userImage } = getAuthUser()
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
@@ -38,7 +37,7 @@ const UserDropdown = () => {
   return (
     <>
       <a
-        className="text-blueGray-500 block"
+        className="block"
         href="#"
         ref={btnDropdownRef}
         onClick={e => {
@@ -47,8 +46,8 @@ const UserDropdown = () => {
         }}
       >
         <div className="items-center flex">
-          <div className="mr-4 text-white">{ userName }</div>
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+          <div className="mr-4 text-white">{userName}</div>
+          <span className="w-12 h-12 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
@@ -68,7 +67,7 @@ const UserDropdown = () => {
         <a
           href="#"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:text-orange-default"
           }
           onClick={handleLogout}
         >

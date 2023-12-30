@@ -1,7 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
 import api from "../api";
-
-export const queryClient = new QueryClient();
 
 export async function fetchMembers({ page }) {
   const response = await api.get(`/admin/members?page=${page}`);
