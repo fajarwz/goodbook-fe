@@ -2,16 +2,14 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/img/Goodbook.png'
 import { login } from '../utils/http/admin/auth';
-import { useState } from 'react';
 import Input from '../components/Form/Input';
+import ErrorBlock from '../components/ErrorBlock'
 
 function Login() {
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsSubmitting(true)
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
@@ -19,12 +17,23 @@ function Login() {
     mutate({ formData: data })
   }
 
-  const { mutate } = useMutation({
+  const { mutate, data, isPending, isError } = useMutation({
     mutationFn: login,
     onSuccess: () => {
       navigate('/admin/dashboard');
     },
   })
+
+  let errorNotif = ''
+  if (data?.status === 'fail') {
+    errorNotif = <ErrorBlock message={
+      <ul className='mb-0'>
+        {Object.entries(data.data).map(([key, error]) => (
+          <li key={key}>{error}</li>
+        ))}
+      </ul>
+    } />
+  }
 
     return (
         <>
@@ -34,21 +43,23 @@ function Login() {
               <div className='text-center'>Login to continue</div>
             </div>
             <div className="card">
+              {isError && <ErrorBlock />}
+              {errorNotif}
               <form onSubmit={handleSubmit}>
                 <div className='mb-4'>
                   <div className='mb-3'>Email</div>
                   <div>
-                    <Input type="email" name="email" />
+                    <Input type="email" name="email" addClassName='w-full' />
                   </div>
                 </div>
                 <div className='mb-4'>
                   <div className='mb-3'>Password</div>
                   <div>
-                    <Input type="password" name="password" />
+                    <Input type="password" name="password" addClassName='w-full' />
                   </div>
                 </div>
                 <div>
-                  <button type='submit' className={`btn btn-primary w-full ${isSubmitting ? 'disabled' : ''}`}>{isSubmitting ? 'Please wait...' : 'Log In'}</button>
+                  <button type='submit' className={`btn btn-primary w-full ${isPending ? 'disabled' : ''}`}>{isPending ? 'Please wait...' : 'Log In'}</button>
                 </div>
               </form>
             </div>

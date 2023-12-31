@@ -87,7 +87,7 @@ export default function Sidebar() {
                   className={({ isActive }) => (`text-xs uppercase py-3 font-bold block ${isActive ? 'active' : ''}`)}
                   to="/admin/books"
                 >
-                  <i className="fas fa-user mr-2 text-sm"></i> Books
+                  <i className="fas fa-book mr-2 text-sm"></i> Books
                 </NavLink>
               </li>
 

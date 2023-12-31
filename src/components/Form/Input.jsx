@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 const Input = forwardRef(function Input(props, ref) {
     const { addClassName, ...attributes } = props
     return (
-        <input className={`h-11 w-80 border rounded-md border-gray-default p-3 ${addClassName}`} {...attributes} ref={ref} />
+        <input className={`h-11 min-w-80 border rounded-md border-gray-default p-3 ${addClassName}`} {...attributes} ref={ref} />
     )
 })
 

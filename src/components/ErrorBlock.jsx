@@ -6,13 +6,13 @@ export default function ErrorBlock({ title, message }) {
       <div className="text-[2rem] w-12 h-12 text-white bg-[#890b35] flex justify-center items-center rounded-[50%]">!</div>
       <div>
         <h2 className='text-inherit text-xl m-0'>{title}</h2>
-        <p className='m-0'>{message}</p>
+        <div className='m-0'>{message}</div>
       </div>
     </div>
   );
 }
 
 ErrorBlock.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   message: PropTypes.string,
 }
