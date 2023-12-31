@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { fetchMembers } from "../utils/http/admin/members"
+import { fetchBooks } from "../utils/http/admin/books"
 import AdminCardTable from "../components/Card/AdminCardTable"
 import Th from "../components/Table/Th"
 import Td from "../components/Table/Td"
@@ -7,8 +7,8 @@ import { useState } from "react"
 import useTitle from "../hooks/useTitle"
 import Input from "../components/Form/Input"
 
-function Members() {
-  useTitle('Members | ' + import.meta.env.VITE_ADMIN_APP_NAME)
+function Books() {
+  useTitle('Books | ' + import.meta.env.VITE_ADMIN_APP_NAME)
 
   const [initialPage, setInitialPage] = useState(0);
   const [page, setPage] = useState(1);
@@ -28,8 +28,8 @@ function Members() {
   }
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['members', { search }, { page }],
-    queryFn: ({ signal, queryKey }) => fetchMembers({ signal, ...queryKey[1], ...queryKey[2] }),
+    queryKey: ['books', { search }, { page }],
+    queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1], ...queryKey[2] }),
   })
 
   const attribute = (
@@ -44,26 +44,34 @@ function Members() {
 
   if (data) {
     const headNames = [
-      'Image',
-      'Name',
-      'Email',
-      'Created At',
-      'Updated At',
+      'Cover',
+      'Title',
+      'Short Description',
+      'Author',
+      'Pages',
+      'Cover Type',
+      'Avg. Rating',
+      'Rater Count',
+      'Published At',
     ]
     head = (
       <Th headNames={headNames} />
     )
 
-    body = data.data.length === 0 ? <tr><td className="text-center" colSpan={5}>No data found.</td></tr> : (
-      data.data.map(user => (
-        <tr key={user.id}>
+    body = data.data.length === 0 ? <tr><td className="text-center" colSpan={9}>No data found.</td></tr> : (
+      data.data.map(book => (
+        <tr key={book.id}>
           <Td value={
-            <img src={user.image} alt={user.name} className="rounded-full w-10 h-10"/>
+            <img src={book.cover} alt={book.title} width={50} />
           } />
-          <Td value={user.name} />
-          <Td value={user.email} />
-          <Td value={user.created_at} />
-          <Td value={user.updated_at} />
+          <Td value={book.title} />
+          <Td value={book.short_description} addClassName='min-w-48' />
+          <Td value={book.author.name} />
+          <Td value={book.number_of_pages} />
+          <Td value={book.cover_type.name} />
+          <Td value={book.avg_rating} />
+          <Td value={book.rater_count} />
+          <Td value={book.published_at} />
         </tr>
       ))
     )
@@ -73,7 +81,7 @@ function Members() {
 
   return (
     <AdminCardTable 
-      title={'Members'} 
+      title={'Books'} 
       isLoading={isLoading} 
       isError={isError} 
       error={error} 
@@ -87,4 +95,4 @@ function Members() {
   )
 }
 
-export default Members
+export default Books

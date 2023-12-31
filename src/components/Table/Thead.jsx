@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export default function Thead({ children }) {
     return (
-        <thead>
+        <thead className='bg-slate-200'>
             <tr>
                 {children}
             </tr>
@@ -11,5 +11,5 @@ export default function Thead({ children }) {
 }
 
 Thead.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.element,
 }

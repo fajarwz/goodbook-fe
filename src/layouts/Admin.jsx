@@ -9,7 +9,7 @@ function Admin() {
           <div className="relative md:ml-64">
             <Navbar />
             {/* Header */}
-            <div className="relative bg-orange-500 md:pt-32 pb-4 pt-12">
+            <div className="relative bg-orange-500 md:pt-28 pb-4 pt-12">
               <div className="px-4 md:px-10 mx-auto w-full">
                 <Outlet />
               </div>

@@ -6,6 +6,7 @@ import { checkAuthLoader } from './utils/http/admin/token';
 import Admin from './layouts/admin';
 import Members from './pages/Members';
 import ErrorBlock from './components/ErrorBlock';
+import Books from './pages/Books';
 
 const router = createBrowserRouter([
     {
@@ -16,11 +17,18 @@ const router = createBrowserRouter([
         {
           path: 'dashboard',
           element: <Dashboard />,
+          loader: checkAuthLoader,
+        },
+        {
+          path: 'books',
+          element: <Books />,
+          loader: checkAuthLoader,
         },
         {
           path: 'members',
           element: <Members />,
-        }
+          loader: checkAuthLoader,
+        },
       ],
     },
     {

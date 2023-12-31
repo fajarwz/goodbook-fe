@@ -8,7 +8,9 @@ import { getAuthUser } from "../utils/http/admin/token";
 
 const UserDropdown = () => {
   const navigate = useNavigate();
-  const { name: userName, image: userImage } = getAuthUser()
+  const authUser = getAuthUser()
+  const name = authUser.name ?? 'Name'
+  const image = authUser.image ?? '#'
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
@@ -46,12 +48,12 @@ const UserDropdown = () => {
         }}
       >
         <div className="items-center flex">
-          <div className="mr-4 text-white">{userName}</div>
+          <div className="mr-4 text-white">{name}</div>
           <span className="w-12 h-12 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
-              alt="..."
+              alt={name + '\'s photo'}
               className="w-full rounded-full align-middle border-none shadow-lg"
-              src={userImage}
+              src={image}
             />
           </span>
         </div>

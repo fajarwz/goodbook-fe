@@ -5,8 +5,8 @@ import Thead from "./Thead";
 
 export default function Table({ head, body }) {
     return (
-        <div className='overflow-x-scroll max-h-[430px]'>
-            <table className="items-center bg-transparent border-collapse">
+        <div className='overflow-x-scroll max-h-[400px]'>
+            <table className="my-0 mx-auto w-full items-center bg-transparent border-collapse">
                 <Thead>
                     {head}
                 </Thead>
@@ -19,7 +19,10 @@ export default function Table({ head, body }) {
 }
 
 Table.propTypes = {
-    head: PropTypes.object.isRequired,
+    head: PropTypes.oneOfType([
+        PropTypes.array.isRequired,
+        PropTypes.element,
+    ]),
     body: PropTypes.oneOfType([
         PropTypes.array.isRequired,
         PropTypes.element,

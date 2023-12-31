@@ -52,22 +52,6 @@ ul, ol {
   @apply pl-5
 }
 
-table {
-  @apply my-0 mx-auto overflow-x-auto whitespace-nowrap w-full
-}
-
-th, td {
-  @apply  p-2
-}
-
-thead {
-  @apply bg-slate-200 w-full
-}
-
-tbody {
-  @apply w-full
-}
-
 .btn {
   @apply hover:no-underline
 }
