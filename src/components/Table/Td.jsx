@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 
-export default function Td({ value, addClassName, ...attributes }) {
+export default function Td({ addClassName, children, ...attributes }) {
     return (
         <td className={`px-6 align-middle text-xs p-4 text-left ${addClassName ?? ''}`} {...attributes}>
-            {value}
+            {children}
         </td>
     )
 }
 
 Td.propTypes = {
-    value: PropTypes.oneOfType([
+    children: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
         PropTypes.object,

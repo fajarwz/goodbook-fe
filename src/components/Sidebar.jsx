@@ -85,6 +85,15 @@ export default function Sidebar() {
               <li className="items-center">
                 <NavLink
                   className={({ isActive }) => (`text-xs uppercase py-3 font-bold block ${isActive ? 'active' : ''}`)}
+                  to="/admin/reviews"
+                >
+                  <i className="fas fa-star mr-2 text-sm"></i> Reviews
+                </NavLink>
+              </li>
+
+              <li className="items-center">
+                <NavLink
+                  className={({ isActive }) => (`text-xs uppercase py-3 font-bold block ${isActive ? 'active' : ''}`)}
                   to="/admin/books"
                 >
                   <i className="fas fa-book mr-2 text-sm"></i> Books

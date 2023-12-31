@@ -7,6 +7,7 @@ import Admin from './layouts/admin';
 import Members from './pages/Members';
 import ErrorBlock from './components/ErrorBlock';
 import Books from './pages/Books';
+import Reviews from './pages/Reviews';
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,11 @@ const router = createBrowserRouter([
         {
           path: 'dashboard',
           element: <Dashboard />,
+          loader: checkAuthLoader,
+        },
+        {
+          path: 'reviews',
+          element: <Reviews />,
           loader: checkAuthLoader,
         },
         {

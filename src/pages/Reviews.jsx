@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
-import { fetchBooks } from "../utils/http/admin/books"
 import AdminCardTable from "../components/Card/AdminCardTable"
 import Th from "../components/Table/Th"
 import Td from "../components/Table/Td"
 import { useState } from "react"
 import useTitle from "../hooks/useTitle"
 import Input from "../components/Form/Input"
+import { fetchReviews } from "../utils/http/admin/reviews"
 
-function Books() {
-  useTitle('Books | ' + import.meta.env.VITE_ADMIN_APP_NAME)
+function Reviews() {
+  useTitle('Reviews | ' + import.meta.env.VITE_ADMIN_APP_NAME)
 
   const [initialPage, setInitialPage] = useState(0);
   const [page, setPage] = useState(1);
@@ -28,8 +28,8 @@ function Books() {
   }
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['books', { search }, { page }],
-    queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1], ...queryKey[2] }),
+    queryKey: ['reviews', { search }, { page }],
+    queryFn: ({ signal, queryKey }) => fetchReviews({ signal, ...queryKey[1], ...queryKey[2] }),
   })
 
   const attribute = (
@@ -44,15 +44,10 @@ function Books() {
 
   if (data) {
     const headNames = [
-      'Cover',
-      'Title',
-      'Short Description',
-      'Author',
-      'Pages',
-      'Cover Type',
-      'Avg. Rating',
-      'Rater Count',
-      'Published At',
+      'Rating',
+      'Review',
+      'Member',
+      'Book',
       'Created At',
       'Updated At',
     ]
@@ -60,20 +55,15 @@ function Books() {
       <Th headNames={headNames} />
     )
 
-    body = data.data.length === 0 ? <tr><Td addClassName="text-center" colSpan={9}>No data found.</Td></tr> : (
-      data.data.map(book => (
-        <tr key={book.id}>
-          <Td><img src={book.cover} alt={book.title} width={50} /></Td>
-          <Td>{book.title}</Td>
-          <Td addClassName='min-w-48'>{book.short_description}</Td>
-          <Td>{book.author.name}</Td>
-          <Td>{book.number_of_pages}</Td>
-          <Td>{book.cover_type.name}</Td>
-          <Td>{book.avg_rating}</Td>
-          <Td>{book.rater_count}</Td>
-          <Td>{book.published_at}</Td>
-          <Td>{book.created_at}</Td>
-          <Td>{book.updated_at}</Td>
+    body = data.data.length === 0 ? <tr><Td addClassName="text-center" colSpan={6}>No data found.</Td></tr> : (
+      data.data.map(review => (
+        <tr key={review.id}>
+          <Td><i className="fas fa-star text-sm text-orange-default"></i> {review.rating}</Td>
+          <Td>{review.review}</Td>
+          <Td>{review.user.name}</Td>
+          <Td>{review.book.title}</Td>
+          <Td>{review.created_at}</Td>
+          <Td>{review.updated_at}</Td>
         </tr>
       ))
     )
@@ -83,7 +73,7 @@ function Books() {
 
   return (
     <AdminCardTable 
-      title={'Books'} 
+      title={'Reviews'} 
       isLoading={isLoading} 
       isError={isError} 
       error={error} 
@@ -97,4 +87,4 @@ function Books() {
   )
 }
 
-export default Books
+export default Reviews

@@ -54,16 +54,14 @@ function Members() {
       <Th headNames={headNames} />
     )
 
-    body = data.data.length === 0 ? <tr><td className="text-center" colSpan={5}>No data found.</td></tr> : (
+    body = data.data.length === 0 ? <tr><Td addClassName="text-center" colSpan={5}>No data found.</Td></tr> : (
       data.data.map(user => (
         <tr key={user.id}>
-          <Td value={
-            <img src={user.image} alt={user.name} className="rounded-full w-10 h-10"/>
-          } />
-          <Td value={user.name} />
-          <Td value={user.email} />
-          <Td value={user.created_at} />
-          <Td value={user.updated_at} />
+          <Td><img src={user.image} alt={user.name} className="rounded-full w-10 h-10"/></Td>
+          <Td>{user.name}</Td>
+          <Td>{user.email}</Td>
+          <Td>{user.created_at}</Td>
+          <Td>{user.updated_at}</Td>
         </tr>
       ))
     )
