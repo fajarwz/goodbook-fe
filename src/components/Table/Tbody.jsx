@@ -9,5 +9,8 @@ export default function Tbody({ children }) {
 }
 
 Tbody.propTypes = {
-    children: PropTypes.array.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.array.isRequired,
+        PropTypes.element,
+    ]),
 }

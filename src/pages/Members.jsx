@@ -9,12 +9,22 @@ import Td from "../components/Table/Td"
 import ReactPaginate from 'react-paginate'; 
 import { useState } from "react"
 import useTitle from "../hooks/useTitle"
+import Input from "../components/Form/Input"
 
 function Members() {
   useTitle('Members | ' + import.meta.env.VITE_ADMIN_APP_NAME)
 
   const [initialPage, setInitialPage] = useState(0);
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    setSearch(data.search)
+  }
 
   const handlePageClick = ({ selected }) => {
     setInitialPage(selected)
@@ -22,11 +32,17 @@ function Members() {
   }
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['users', { page }],
-    queryFn: ({ signal, queryKey }) => fetchMembers({ signal, ...queryKey[1] }),
+    queryKey: ['users', { search }, { page }],
+    queryFn: ({ signal, queryKey }) => fetchMembers({ signal, ...queryKey[1], ...queryKey[2] }),
   })
 
-  let content = <p>No data found.</p>
+  const attribute = (
+    <form onSubmit={handleSearch}>
+      <Input addClassName="mb-4 text-xs h-9" placeholder="Search..." type='text' name='search' />
+    </form>
+  )
+
+  let content = ''
 
   if (isLoading) {
     content = <div className="text-center">
@@ -53,7 +69,7 @@ function Members() {
       <Th headNames={headNames} />
     )
 
-    const body = (
+    const body = data.data.length === 0 ? <tr><td className="text-center" colSpan={5}>No data found.</td></tr> : (
       data.data.map(user => (
         <tr key={user.id}>
           <Td value={
@@ -94,7 +110,7 @@ function Members() {
   }
 
   return (
-    <AdminCardTable title={'Members'}>
+    <AdminCardTable title={'Members'} attribute={attribute}>
       {content}
     </AdminCardTable>
   )

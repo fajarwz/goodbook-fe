@@ -20,5 +20,8 @@ export default function Table({ head, body }) {
 
 Table.propTypes = {
     head: PropTypes.object.isRequired,
-    body: PropTypes.array.isRequired,
+    body: PropTypes.oneOfType([
+        PropTypes.array.isRequired,
+        PropTypes.element,
+    ]),
 }

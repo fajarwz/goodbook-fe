@@ -88,10 +88,6 @@ tbody {
   @apply bg-white rounded-2xl p-6
 }
 
-.form-input {
-  @apply h-11 w-80 border rounded-md border-gray-default p-3
-}
-
 /* loading indicator */
 .lds-ring {
   @apply inline-block relative w-20 h-20 mx-0 my-4;

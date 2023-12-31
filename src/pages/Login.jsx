@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/img/Goodbook.png'
 import { login } from '../utils/http/admin/auth';
 import { useState } from 'react';
+import Input from '../components/Form/Input';
 
 function Login() {
   const navigate = useNavigate();
@@ -21,13 +22,8 @@ function Login() {
   const { mutate } = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      // TODO: save the user in the state
       navigate('/admin/dashboard');
     },
-    // onError: (error, data, context) => {
-      // rollback changes
-      // queryClient.setQueryData(['events', id], context.previousEvent)
-    // },
   })
 
     return (
@@ -42,13 +38,13 @@ function Login() {
                 <div className='mb-4'>
                   <div className='mb-3'>Email</div>
                   <div>
-                    <input type="text" name="email" className="form-input" />
+                    <Input type="email" name="email" />
                   </div>
                 </div>
                 <div className='mb-4'>
                   <div className='mb-3'>Password</div>
                   <div>
-                    <input type="password" name="password" className="form-input" />
+                    <Input type="password" name="password" />
                   </div>
                 </div>
                 <div>
