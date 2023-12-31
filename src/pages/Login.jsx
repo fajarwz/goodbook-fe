@@ -26,7 +26,7 @@ function Login() {
 
   let errorNotif = ''
   if (data?.status === 'fail') {
-    errorNotif = <ErrorBlock message={
+    errorNotif = <ErrorBlock title='' message={
       <ul className='mb-0'>
         {Object.entries(data.data).map(([key, error]) => (
           <li key={key}>{error}</li>
