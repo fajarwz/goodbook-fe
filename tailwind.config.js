@@ -21,7 +21,7 @@ export default {
           dark: '#7A7A7A',
         },
         customWhite: {
-          warm: '#7A7A7A',
+          warm: '#FFF3DA',
           dark: '#ECECEC',
         },
         orange: {
