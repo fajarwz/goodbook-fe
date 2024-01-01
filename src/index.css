@@ -49,10 +49,6 @@ ol {
   @apply list-decimal
 }
 
-ul {
-  @apply list-disc
-}
-
 ul, ol {
   @apply pl-5
 }
