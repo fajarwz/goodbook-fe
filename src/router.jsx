@@ -8,6 +8,7 @@ import Members from './pages/Members';
 import ErrorBlock from './components/ErrorBlock';
 import Books from './pages/Books';
 import Reviews from './pages/Reviews';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
     {
       path: 'admin/login',
       element: <Login />,
+    },
+    {
+      path: '/',
+      element: <Home />,
     },
     {
       path: '*',

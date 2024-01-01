@@ -5,11 +5,12 @@
 @tailwind utilities;
 
 * {
+  /* @apply text-base border-solid border border-red-50 */
   @apply text-base
 }
 
 body {
-  @apply text-black-default bg-white
+  @apply text-black-default bg-white box-border
 }
 
 main {
