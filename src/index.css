@@ -49,10 +49,6 @@ ol {
   @apply list-decimal
 }
 
-ul, ol {
-  @apply pl-5
-}
-
 .btn {
   @apply hover:no-underline
 }

@@ -72,7 +72,7 @@ export default function Sidebar() {
               </div>
             </div>
             {/* Navigation */}
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+            <ul className="pl-5 md:flex-col md:min-w-full flex flex-col list-none">
               <li className="items-center">
                 <NavLink
                   className={({ isActive }) => (`text-xs uppercase py-3 font-bold block ${isActive ? 'active' : ''}`)}
