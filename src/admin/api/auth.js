@@ -18,7 +18,6 @@ export async function login({ formData }) {
 }
 
 export async function logout() {
-  const loginReq = await api.post('/admin/logout');
+  await api.post('/admin/logout');
   await deleteAuth()
-  console.log(loginReq)
 }

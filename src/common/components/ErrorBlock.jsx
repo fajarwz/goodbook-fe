@@ -14,5 +14,8 @@ export default function ErrorBlock({ title = 'An error occured.', message }) {
 
 ErrorBlock.propTypes = {
   title: PropTypes.string,
-  message: PropTypes.string,
+  message: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
 }

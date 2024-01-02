@@ -8,7 +8,7 @@ import { useTitle } from '../../common/hooks'
 
 import { AdminTableCard } from "../components/Card"
 import { Tr, Th, Td } from "../components/Table"
-import { Input } from "../components/Form"
+import { SearchForm } from "../components/Form"
 
 function Reviews() {
   useTitle('Reviews | ' + config.app.name)
@@ -35,11 +35,7 @@ function Reviews() {
     queryFn: ({ signal, queryKey }) => fetchReviews({ signal, ...queryKey[1], ...queryKey[2] }),
   })
 
-  const attribute = (
-    <form onSubmit={handleSearch}>
-      <Input addClassName="mb-4 text-xs h-9" placeholder="Search..." type='text' name='search' />
-    </form>
-  )
+  const attribute = <SearchForm handleSearch={handleSearch} />
 
   let head = null
   let body = null
