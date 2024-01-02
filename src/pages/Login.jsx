@@ -42,7 +42,7 @@ function Login() {
               <img src={logo} className='mb-4' alt="Goodbook logo" width={161} height={40} />
               <div className='text-center'>Login to continue</div>
             </div>
-            <div className="card">
+            <div>
               {isError && <ErrorBlock />}
               {errorNotif}
               <form onSubmit={handleSubmit}>

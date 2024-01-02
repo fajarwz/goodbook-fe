@@ -4,7 +4,7 @@ import ErrorBlock from "../../components/ErrorBlock"
 import Table from '../Table/Table';
 import ReactPaginate from 'react-paginate';
 
-export default function AdminCardTable({ title, attribute, isLoading, isError, error, head, body, initialPage, handlePageClick, pageCount }) {
+export default function AdminTableCard({ title, attribute, isLoading, isError, error, head, body, initialPage, handlePageClick, pageCount }) {
     let loadingOrErrorPlaceholder = ''
 
     if (isLoading) {
@@ -49,7 +49,7 @@ export default function AdminCardTable({ title, attribute, isLoading, isError, e
     )
 }
 
-AdminCardTable.propTypes = {
+AdminTableCard.propTypes = {
     title: PropTypes.string.isRequired,
     attribute: PropTypes.object,
     isLoading: PropTypes.bool,

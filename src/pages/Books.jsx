@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { fetchBooks } from "../utils/http/admin/books"
-import AdminCardTable from "../components/Card/AdminCardTable"
+import AdminTableCard from "../components/Card/AdminTableCard"
 import Th from "../components/Table/Th"
 import Td from "../components/Table/Td"
 import { useState } from "react"
@@ -82,11 +82,11 @@ function Books() {
   }
 
   return (
-    <AdminCardTable 
-      title={'Books'} 
-      isLoading={isLoading} 
-      isError={isError} 
-      error={error} 
+    <AdminTableCard
+      title={'Books'}
+      isLoading={isLoading}
+      isError={isError}
+      error={error}
       attribute={attribute}
       head={head}
       body={body}

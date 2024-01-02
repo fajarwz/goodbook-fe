@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { fetchMembers } from "../utils/http/admin/members"
-import AdminCardTable from "../components/Card/AdminCardTable"
+import AdminTableCard from "../components/Card/AdminTableCard"
 import Th from "../components/Table/Th"
 import Td from "../components/Table/Td"
 import { useState } from "react"
@@ -57,7 +57,7 @@ function Members() {
     body = data.data.length === 0 ? <tr><Td addClassName="text-center" colSpan={5}>No data found.</Td></tr> : (
       data.data.map(user => (
         <tr key={user.id}>
-          <Td><img src={user.image} alt={user.name} className="rounded-full w-10 h-10"/></Td>
+          <Td><img src={user.image} alt={user.name} className="rounded-full w-10 h-10" /></Td>
           <Td>{user.name}</Td>
           <Td>{user.email}</Td>
           <Td>{user.created_at}</Td>
@@ -70,11 +70,11 @@ function Members() {
   }
 
   return (
-    <AdminCardTable 
-      title={'Members'} 
-      isLoading={isLoading} 
-      isError={isError} 
-      error={error} 
+    <AdminTableCard
+      title={'Members'}
+      isLoading={isLoading}
+      isError={isError}
+      error={error}
       attribute={attribute}
       head={head}
       body={body}

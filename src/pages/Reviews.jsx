@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import AdminCardTable from "../components/Card/AdminCardTable"
+import AdminTableCard from "../components/Card/AdminTableCard"
 import Th from "../components/Table/Th"
 import Td from "../components/Table/Td"
 import { useState } from "react"
@@ -72,11 +72,11 @@ function Reviews() {
   }
 
   return (
-    <AdminCardTable 
-      title={'Reviews'} 
-      isLoading={isLoading} 
-      isError={isError} 
-      error={error} 
+    <AdminTableCard
+      title={'Reviews'}
+      isLoading={isLoading}
+      isError={isError}
+      error={error}
       attribute={attribute}
       head={head}
       body={body}
