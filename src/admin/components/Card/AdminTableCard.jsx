@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { ErrorBlock, LoadingIndicator } from "../../../common/components"
 import Table from '../Table/Table';
 import ReactPaginate from 'react-paginate';
+import Card from './Card';
 
 export default function AdminTableCard({ title, attribute, isLoading, isError, error, head, body, initialPage, handlePageClick, pageCount }) {
     let loadingOrErrorPlaceholder = ''
@@ -20,7 +21,7 @@ export default function AdminTableCard({ title, attribute, isLoading, isError, e
     }
 
     return (
-        <div className="card">
+        <Card>
             <h1 className="text-2xl">{title}</h1>
             {attribute}
             {loadingOrErrorPlaceholder}
@@ -44,7 +45,7 @@ export default function AdminTableCard({ title, attribute, isLoading, isError, e
                 previousLabel="<&nbsp;prev"
                 renderOnZeroPageCount={null}
             />
-        </div>
+        </Card>
     )
 }
 

@@ -70,7 +70,7 @@ ol {
   @apply inline-block relative w-20 h-20 mx-0 my-4;
 }
 .lds-ring div {
-  @apply box-border block absolute w-16 h-16 animate-[lds-ring_1.2s_cubic-bezier(0.5,0,0.5,1)_infinite] m-2 rounded-[50%] border-8 border-solid border-[#e30d5b] border-[#e30d5b_transparent_transparent_transparent];
+  @apply box-border block absolute w-16 h-16 animate-[lds-ring_1.2s_cubic-bezier(0.5,0,0.5,1)_infinite] m-2 rounded-[50%] border-8 border-solid border-[#E0631E_transparent_transparent_transparent];
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
