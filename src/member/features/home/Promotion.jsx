@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import star1 from '../../assets/img/star-1.svg'
 import star34 from '../../assets/img/star-34.svg'
 
-export default function PromotionCard({ title, books }) {
+export default function Promotion({ title, books }) {
     return (
         <section className="bg-customWhite-warm py-20">
             <div className="container">
@@ -11,7 +11,7 @@ export default function PromotionCard({ title, books }) {
                     <h1 className="mb-0">{title}</h1>
                     <div>
                         <Link>
-                            <span className='font-bold hidden sm:inline-block'>More</span>&nbsp;<span className='font-bold text-3xl sm:text-base' title="See more">{'>'}</span>
+                            <span className='font-bold hidden sm:inline-block'>Browse</span>&nbsp;<span className='font-bold text-3xl sm:text-base' title="Browse">&gt;</span>
                         </Link>
                     </div>
                 </div>
