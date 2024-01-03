@@ -20,6 +20,7 @@ export default {
         gray: {
           default: '#BCBCBC',
           dark: '#7A7A7A',
+          line: '#D9D9D9',
         },
         customWhite: {
           warm: '#FFF3DA',

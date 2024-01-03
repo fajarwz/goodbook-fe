@@ -15,3 +15,11 @@ export async function fetchNewestBooks() {
 
   return books;
 }
+
+export async function fetchBooks() {
+  const response = await api.get('/member/books');
+
+  const books = response.data.data.books
+
+  return books;
+}
