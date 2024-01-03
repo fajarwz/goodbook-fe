@@ -1,3 +1,4 @@
 import Home from "./Home";
+import Browse from "./Browse";
 
-export { Home }
+export { Browse, Home }

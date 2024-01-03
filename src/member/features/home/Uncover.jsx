@@ -34,7 +34,7 @@ export default function Uncover({ title, handleSearch, data, isLoading, isError,
             <div className="container">
                 <h1 className="mb-7">{title}</h1>
                 <form onSubmit={handleSearch} className="flex justify-center mb-7">
-                    <input type="text" name='search' placeholder='Search books' className="placeholder:text-gray-dark border-4 border-orange-default rounded-md bg-transparent p-3 w-[480px] leading-3" />
+                    <input type="text" name='search' placeholder='Search books' className="placeholder:text-gray-dark border-4 border-orange-default rounded-md bg-transparent p-3 w-[480px] leading-3 pr-12" />
                     <img src={search} alt="Search icon" className="relative right-9" />
                 </form>
                 <div>

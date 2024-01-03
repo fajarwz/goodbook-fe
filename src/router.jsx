@@ -3,7 +3,7 @@ import { checkAuthLoader } from './admin/utils/token';
 import { ErrorBlock } from './common/components';
 import { Admin } from './admin/layouts';
 import { Books, Dashboard, Login, Members, Reviews } from './admin/pages';
-import { Home } from './member/pages';
+import { Browse, Home } from './member/pages';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/browse',
+    element: <Browse />,
   },
   {
     path: '*',
