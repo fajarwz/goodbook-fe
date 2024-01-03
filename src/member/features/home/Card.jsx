@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 import star0 from '../../assets/img/star-0.svg'
 import star14 from '../../assets/img/star-14.svg'
@@ -54,4 +55,8 @@ export default function Card({ book }) {
             </div>
         </div>
     )
+}
+
+Card.propTypes = {
+    book: PropTypes.object,
 }

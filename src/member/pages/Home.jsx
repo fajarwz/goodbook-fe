@@ -4,6 +4,7 @@ import config from '../utils/config'
 import { useTitle } from '../../common/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { fetchBestBooks, fetchNewestBooks } from '../api/books'
+import { fetchGenres } from '../api/genres'
 
 export default function Home() {
     useTitle('Home | ' + config.app.name)
@@ -18,7 +19,12 @@ export default function Home() {
         queryFn: ({ signal }) => fetchNewestBooks({ signal }),
     })
 
-    const handleSearch = (event) => {
+    const { data: dataGenres, isLoading: isLoadingGenres, isError: isErrorGenres, error: errorGenres } = useQuery({
+        queryKey: ['genres'],
+        queryFn: ({ signal }) => fetchGenres({ signal }),
+    })
+
+    const handleSearch = () => {
 
     }
 
@@ -32,7 +38,14 @@ export default function Home() {
                 isError={isErrorBest} 
                 error={errorBest} 
             />
-            <Uncover handleSearch={handleSearch} genres={[]} />
+            <Uncover 
+                title='Uncover Hidden Gems' 
+                handleSearch={handleSearch} 
+                data={dataGenres} 
+                isLoading={isLoadingGenres} 
+                isError={isErrorGenres} 
+                error={errorGenres} 
+            />
             <Promotion 
                 title="New Releases" 
                 data={dataNewest} 

@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
+import { string, bool, object, array } from 'prop-types';
 
 import { ErrorBlock, LoadingIndicator } from '../../../common/components'
 import Card from './Card'
 
-export default function Promotion({ title, data, isLoading, isError, error, children }) {
+export default function Promotion({ title, data, isLoading, isError, error }) {
     let loadingOrErrorPlaceholder = ''
 
     if (isLoading) {
@@ -44,4 +45,12 @@ export default function Promotion({ title, data, isLoading, isError, error, chil
             </div>
         </section>
     )
+}
+
+Promotion.propTypes = {
+    title: string,
+    data: array,
+    isLoading: bool,
+    isError: bool,
+    error: object,
 }
