@@ -3,8 +3,7 @@ import { Header, Ignite, Promotion, Uncover } from '../features/home'
 import config from '../utils/config'
 import { useTitle } from '../../common/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { fetchBestBooks } from '../api/books'
-import Card from '../features/home/Card'
+import { fetchBestBooks, fetchNewestBooks } from '../api/books'
 
 export default function Home() {
     useTitle('Home | ' + config.app.name)
@@ -14,12 +13,10 @@ export default function Home() {
         queryFn: ({ signal }) => fetchBestBooks({ signal }),
     })
 
-    let highestRatings = <></>
-    if (dataBest) {
-        highestRatings = dataBest.map(book => {
-            return <Card key={book.id} book={book} />
-        })
-    }
+    const { data: dataNewest, isLoading: isLoadingNewest, isError: isErrorNewest, error: errorNewest } = useQuery({
+        queryKey: ['books', 'newest'],
+        queryFn: ({ signal }) => fetchNewestBooks({ signal }),
+    })
 
     const handleSearch = (event) => {
 
@@ -30,14 +27,19 @@ export default function Home() {
             <Header />
             <Promotion 
                 title="Highest Rating" 
+                data={dataBest}
                 isLoading={isLoadingBest} 
                 isError={isErrorBest} 
                 error={errorBest} 
-            >
-                {highestRatings}
-            </Promotion>
+            />
             <Uncover handleSearch={handleSearch} genres={[]} />
-            <Promotion title="New Releases" books={[]} />
+            <Promotion 
+                title="New Releases" 
+                data={dataNewest} 
+                isLoading={isLoadingNewest} 
+                isError={isErrorNewest} 
+                error={errorNewest} 
+            />
             <Ignite />
             <Footer />
         </>

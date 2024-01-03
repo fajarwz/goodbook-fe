@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 
 import { ErrorBlock, LoadingIndicator } from '../../../common/components'
+import Card from './Card'
 
-export default function Promotion({ title, isLoading, isError, error, children }) {
+export default function Promotion({ title, data, isLoading, isError, error, children }) {
     let loadingOrErrorPlaceholder = ''
 
     if (isLoading) {
@@ -18,6 +19,13 @@ export default function Promotion({ title, isLoading, isError, error, children }
         />
     }
 
+    let dataElems = <></>
+    if (data) {
+        dataElems = data.map(book => {
+            return <Card key={book.id} book={book} />
+        })
+    }
+
     return (
         <section className="bg-customWhite-warm py-20">
             <div className="container">
@@ -31,7 +39,7 @@ export default function Promotion({ title, isLoading, isError, error, children }
                 </div>
                 {loadingOrErrorPlaceholder}
                 <div className='grid grid-rows-1 md:grid-cols-2 gap-10'>
-                    {children}
+                    {dataElems}
                 </div>
             </div>
         </section>
