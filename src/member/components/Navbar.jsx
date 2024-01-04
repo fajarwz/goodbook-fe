@@ -34,7 +34,7 @@ export default function Navbar() {
             <div className="container flex flex-col lg:flex-row h-full">
                 <div className='flex my-auto items-center justify-between flex-shrink-0 min-h-20'>
                     <Link to='/'><Logo logo={logo} /></Link>
-                    <a href="javascript:;" onClick={toggleHamburgerBtnClick} id="hamburger-btn" className="font-bold lg:hidden">☰</a>
+                    <a href="#" onClick={toggleHamburgerBtnClick} id="hamburger-btn" className="font-bold lg:hidden">☰</a>
                 </div>
                 <div className={`flex-col lg:flex lg:flex-row items-center justify-between lg:w-full bg-white lg:bg-inherit p-4 lg:p-0 rounded-md ${showHamburgerNav ? 'flex' : 'hidden'}`}>
                     <ul className='mb-8 lg:mb-0 lg:ml-14 font-bold w-full'>

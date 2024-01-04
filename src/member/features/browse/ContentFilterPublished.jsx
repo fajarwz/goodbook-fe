@@ -6,10 +6,6 @@ export default function ContentFilterPublished() {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
 
-    const getLastDayOfMonth = (date) => {
-        return new Date(date.getFullYear(), date.getMonth() + 1, 0)
-    }
-
     return (
         <div className="flex flex-wrap gap-2 mb-4">
             <DatePicker
@@ -27,7 +23,7 @@ export default function ContentFilterPublished() {
             <DatePicker
                 placeholderText='Published until...'
                 selected={endDate}
-                onChange={(date) => setEndDate(getLastDayOfMonth(date))}
+                onChange={(date) => setEndDate(date)}
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}

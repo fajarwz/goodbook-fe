@@ -16,14 +16,17 @@ export default function Browse() {
     const [searchParams] = useSearchParams({ search: '' })
     const search = searchParams.get('search')
 
+    const [publishedFrom, setPublishedFrom] = useState('');
+    const [publishedUntil, setPublishedUntil] = useState('');
+
     const handlePageClick = ({ selected }) => {
         setInitialPage(selected)
         setPage(selected + 1)
     }
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['books', { search }, { page }],
-        queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1], ...queryKey[2] }),
+        queryKey: ['books', { search }, { page }, { publishedFrom }, { publishedUntil }],
+        queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1], ...queryKey[2], ...queryKey[3], ...queryKey[4] }),
         onSuccess: window.scrollTo(0, 0),
     })
 
@@ -32,7 +35,8 @@ export default function Browse() {
 
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
-        console.log(data)
+        setPublishedFrom(data.published_from)
+        setPublishedUntil(data.published_until)
     }
 
     return (

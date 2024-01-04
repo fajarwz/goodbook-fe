@@ -16,8 +16,13 @@ export async function fetchNewestBooks({ signal }) {
   return books;
 }
 
-export async function fetchBooks({ signal, search, page }) {
-  const response = await api.get(`/member/books?search=${search}&page=${page}`, { signal });
+export async function fetchBooks({ signal, search, page, publishedFrom, publishedUntil }) {
+  let url = `/member/books?search=${search}&page=${page}`
+  if (publishedFrom !== '' && publishedUntil !== '') {
+    url += `&filter[published_between]=${publishedFrom},${publishedUntil}`
+  }
+
+  const response = await api.get(url, { signal });
 
   const books = response.data.data.books
 
