@@ -4,31 +4,26 @@ import { ErrorBlock, LoadingIndicator } from "../../../common/components";
 import ReactPaginate from "react-paginate";
 
 export default function ContentList({ books, isLoading, isError, error, handlePageClick, initialPage, ...attributes }) {
-    let loadingOrErrorPlaceholder = <></>
+    let content = <div className="text-center">No data found.</div>
 
     if (isLoading) {
-        loadingOrErrorPlaceholder = <div className="text-center">
+        content = <div className="text-center">
             <LoadingIndicator />
         </div>
     }
 
     if (isError) {
-        loadingOrErrorPlaceholder = <ErrorBlock
+        content = <ErrorBlock
             title="An error occured"
             message={error.info?.message || 'Failed to fetch data'}
         />
     }
 
-    if (books?.data.length === 0) {
-        loadingOrErrorPlaceholder = <div className="text-center">No data found.</div>
-    }
-
-    const pageCount = books?.meta.last_page ?? 1
-
-    return (
-        <section {...attributes}>
-            {loadingOrErrorPlaceholder}
-            {books?.data.map(book => {
+    if (books.length > 0) {
+        const pageCount = books.meta.last_page ?? 1
+        content = 
+        <>
+            {books.data.map(book => {
                 return <ContentListCard key={book.id} book={book} />
             })}
             <ReactPaginate
@@ -50,6 +45,12 @@ export default function ContentList({ books, isLoading, isError, error, handlePa
                 previousLabel="<&nbsp;prev"
                 renderOnZeroPageCount={null}
             />
+        </>
+    }
+
+    return (
+        <section {...attributes}>
+            {content}
         </section>
     )
 }

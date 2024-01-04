@@ -2,29 +2,32 @@ import { Link } from 'react-router-dom'
 import { string, bool, object, array } from 'prop-types';
 
 import { ErrorBlock, LoadingIndicator } from '../../../common/components'
-import Card from './Card'
+import PromotionCard from './PromotionCard'
 
 export default function Promotion({ title, data, isLoading, isError, error }) {
-    let loadingOrErrorPlaceholder = ''
+    let content = <div className="text-center">No data found.</div>
 
     if (isLoading) {
-        loadingOrErrorPlaceholder = <div className="text-center">
+        content = <div className="text-center">
             <LoadingIndicator />
         </div>
     }
 
     if (isError) {
-        loadingOrErrorPlaceholder = <ErrorBlock
+        content = <ErrorBlock
             title="An error occured"
             message={error.info?.message || 'Failed to fetch data'}
         />
     }
 
-    let dataElems = <></>
-    if (data) {
-        dataElems = data.map(book => {
-            return <Card key={book.id} book={book} />
-        })
+    if (data.length > 0) {
+        content = (
+            <div className='grid grid-rows-1 md:grid-cols-2 gap-10'>
+                {data.map(book => {
+                    return <PromotionCard key={book.id} book={book} />
+                })}
+            </div>
+        )
     }
 
     return (
@@ -38,10 +41,7 @@ export default function Promotion({ title, data, isLoading, isError, error }) {
                         </Link>
                     </div>
                 </div>
-                {loadingOrErrorPlaceholder}
-                <div className='grid grid-rows-1 md:grid-cols-2 gap-10'>
-                    {dataElems}
-                </div>
+                {content}
             </div>
         </section>
     )

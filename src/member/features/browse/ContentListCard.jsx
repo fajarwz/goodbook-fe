@@ -4,14 +4,13 @@ import { Rating } from "../../components";
 
 import star1 from '../../assets/img/star-1.svg'
 import { object } from "prop-types";
+import { Cover } from "../../components/Image";
 
 export default function ContentListCard({ book }) {
     return (
         <div className='flex mb-8'>
             <Link>
-                <div className='w-[6.5625rem] h-[10.0625rem] sm:w-[9.375rem] sm:h-[14.375rem]'>
-                    <img src={book.cover} alt={`${book.title} cover`} className="w-full h-full" />
-                </div>
+                <Cover book={book.title} cover={book.cover} />
             </Link>
             <div className="ml-8">
                 <Link>

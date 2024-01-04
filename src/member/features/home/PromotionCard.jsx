@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 
 import star1 from '../../assets/img/star-1.svg'
 import Rating from '../../components/Rating';
+import { Cover } from '../../components/Image';
 
-export default function Card({ book }) {
+export default function PromotionCard({ book }) {
     return (
         <div className='flex'>
             <Link>
-                <div className='w-[6.5625rem] h-[10.0625rem] sm:w-[9.375rem] sm:h-[14.375rem]'>
-                    <img src={book.cover} alt={`${book.title} cover`} className="w-full h-full" />
-                </div>
+                <Cover book={book.title} cover={book.cover} />
             </Link>
             <div className="ml-8">
                 <Link>
@@ -30,6 +29,6 @@ export default function Card({ book }) {
     )
 }
 
-Card.propTypes = {
+PromotionCard.propTypes = {
     book: PropTypes.object,
 }
