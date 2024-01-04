@@ -19,8 +19,7 @@ export default function Promotion({ title, data, isLoading, isError, error }) {
             message={error.info?.message || 'Failed to fetch data'}
         />
     }
-
-    if (data.length > 0) {
+    if (data?.length > 0) {
         content = (
             <div className='grid grid-rows-1 md:grid-cols-2 gap-10'>
                 {data.map(book => {

@@ -19,7 +19,7 @@ export default function ContentList({ books, isLoading, isError, error, handlePa
         />
     }
 
-    if (books.length > 0) {
+    if (books?.data.length > 0) {
         const pageCount = books.meta.last_page ?? 1
         content = 
         <>
