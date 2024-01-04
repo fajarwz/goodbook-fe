@@ -1,7 +1,7 @@
 import PrimaryLink from "./PrimaryLink";
 
-export default function JoinBtn() {
+export default function JoinBtn({ addClassName }) {
     return (
-        <PrimaryLink addClassName="w-28 mr-4">Join</PrimaryLink>
+        <PrimaryLink addClassName={`w-28 mr-4 ${addClassName}`}>Join</PrimaryLink>
     )
 }

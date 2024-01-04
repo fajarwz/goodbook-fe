@@ -11,7 +11,7 @@ export default function ContentFilterPublished() {
     }
 
     return (
-        <div className="flex mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
             <DatePicker
                 placeholderText='Published from...'
                 selected={startDate}
@@ -21,7 +21,8 @@ export default function ContentFilterPublished() {
                 endDate={endDate}
                 dateFormat="MMMM yyyy"
                 showMonthYearPicker
-                className='h-11 border rounded-md border-gray-default p-3 bg-transparent min-w-[185px] md:mb-2 md:mr-4'
+                className='h-11 border rounded-md border-gray-default p-3 bg-transparent w-[185px]'
+                name='published_from'
             />
             <DatePicker
                 placeholderText='Published until...'
@@ -33,7 +34,8 @@ export default function ContentFilterPublished() {
                 minDate={startDate}
                 dateFormat="MMMM yyyy"
                 showMonthYearPicker
-                className='h-11 border rounded-md border-gray-default p-3 bg-transparent min-w-[185px]'
+                className='h-11 border rounded-md border-gray-default p-3 bg-transparent w-[185px]'
+                name='published_until'
             />
         </div>
     )

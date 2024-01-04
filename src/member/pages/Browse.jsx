@@ -27,6 +27,14 @@ export default function Browse() {
         onSuccess: window.scrollTo(0, 0),
     })
 
+    const handleFilter = (event) => {
+        event.preventDefault()
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+        console.log(data)
+    }
+
     return (
         <div className='bg-customWhite-warm'>
             <Navbar />
@@ -38,6 +46,7 @@ export default function Browse() {
                 error={error} 
                 handlePageClick={handlePageClick} 
                 initialPage={initialPage} 
+                handleFilter={handleFilter}
             />
             <Footer />
         </div>
