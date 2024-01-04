@@ -1,8 +1,9 @@
-import { array } from "prop-types";
+import { array, bool, func, number, object } from "prop-types";
 import ContentListCard from "./ContentListCard";
 import { ErrorBlock, LoadingIndicator } from "../../../common/components";
+import ReactPaginate from "react-paginate";
 
-export default function ContentList({ books, isLoading, isError, error, ...attributes }) {
+export default function ContentList({ books, isLoading, isError, error, handlePageClick, initialPage, ...attributes }) {
     let loadingOrErrorPlaceholder = <></>
 
     if (isLoading) {
@@ -18,17 +19,43 @@ export default function ContentList({ books, isLoading, isError, error, ...attri
         />
     }
 
+    const pageCount = books?.meta.last_page ?? 1
+
     return (
         <section {...attributes}>
             {loadingOrErrorPlaceholder}
             {books?.data.map(book => {
                 return <ContentListCard key={book.id} book={book} />
             })}
-            {/* Pagination */}
+            <ReactPaginate
+                initialPage={initialPage}
+                activeClassName={'items-center text-orange-default cursor-pointer flex text-sm justify-center'}
+                breakClassName={'items-center cursor-pointer flex text-sm justify-center'}
+                breakLabel={'...'}
+                containerClassName={'items-left flex flex-row justify-center list-none'}
+                disabledClassName={'text-gray-default'}
+                marginPagesDisplayed={2}
+                nextClassName={"items-center text-black-default cursor-pointer flex p-3 text-sm justify-center"}
+                nextLabel="next&nbsp;>"
+                onPageChange={handlePageClick}
+                pageCount={pageCount}
+                pageClassName={'items-center text-black-default cursor-pointer flex text-sm justify-center font-bold'}
+                pageLinkClassName={'p-3'}
+                pageRangeDisplayed={2}
+                previousClassName={"items-center text-black-default cursor-pointer flex p-3 text-sm justify-center"}
+                previousLabel="<&nbsp;prev"
+                renderOnZeroPageCount={null}
+            />
         </section>
     )
 }
 
 ContentList.propTypes = {
-    book: array,
+    books: array,
+    isLoading: bool,
+    isError: bool,
+    error: object,
+    initialPage: number.isRequired,
+    handlePageClick: func.isRequired,
+    pageCount: number,
 }
