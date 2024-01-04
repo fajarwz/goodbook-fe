@@ -1,4 +1,4 @@
-import { number, string } from 'prop-types';
+import { number, oneOfType, string } from 'prop-types';
 
 import star0 from '../assets/img/star-0.svg'
 import star14 from '../assets/img/star-14.svg'
@@ -43,6 +43,9 @@ export default function Rating({ rating = 0, addRatingClassName }) {
 }
 
 Rating.propTypes = {
-    rating: number,
+    rating: oneOfType([
+        number,
+        string,
+    ]).isRequired,
     addRatingClassName: string,
 }

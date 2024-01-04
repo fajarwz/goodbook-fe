@@ -33,7 +33,7 @@ export default function Promotion({ title, data, isLoading, isError, error }) {
                 <div className='flex justify-between items-center mb-8'>
                     <h1 className="mb-0">{title}</h1>
                     <div>
-                        <Link>
+                        <Link to='/browse'>
                             <span className='font-bold hidden sm:inline-block'>Browse</span>&nbsp;<span className='font-bold text-3xl sm:text-base' title="Browse">&gt;</span>
                         </Link>
                     </div>

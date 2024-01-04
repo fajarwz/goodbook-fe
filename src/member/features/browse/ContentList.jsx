@@ -1,4 +1,4 @@
-import { array, bool, func, number, object } from "prop-types";
+import { bool, func, number, object } from "prop-types";
 import ContentListCard from "./ContentListCard";
 import { ErrorBlock, LoadingIndicator } from "../../../common/components";
 import ReactPaginate from "react-paginate";
@@ -17,6 +17,10 @@ export default function ContentList({ books, isLoading, isError, error, handlePa
             title="An error occured"
             message={error.info?.message || 'Failed to fetch data'}
         />
+    }
+
+    if (books?.data.length === 0) {
+        loadingOrErrorPlaceholder = <div className="text-center">No data found.</div>
     }
 
     const pageCount = books?.meta.last_page ?? 1
@@ -51,7 +55,7 @@ export default function ContentList({ books, isLoading, isError, error, handlePa
 }
 
 ContentList.propTypes = {
-    books: array,
+    books: object,
     isLoading: bool,
     isError: bool,
     error: object,

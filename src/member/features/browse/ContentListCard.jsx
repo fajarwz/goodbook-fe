@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Rating } from "../../components";
 
 import star1 from '../../assets/img/star-1.svg'
-import { array } from "prop-types";
+import { object } from "prop-types";
 
 export default function ContentListCard({ book }) {
     return (
@@ -35,5 +35,5 @@ export default function ContentListCard({ book }) {
 }
 
 ContentListCard.propTypes = {
-    book: array,
+    book: object,
 }

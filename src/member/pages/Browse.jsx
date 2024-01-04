@@ -6,21 +6,15 @@ import { Header, Content } from '../features/browse'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { fetchBooks } from '../api/books'
+import { useSearchParams } from 'react-router-dom'
 
 export default function Browse() {
     useTitle('Browse | ' + config.app.name)
 
     const [initialPage, setInitialPage] = useState(0);
     const [page, setPage] = useState(1);
-    const [search, setSearch] = useState('');
-
-    // const handleSearch = (event) => {
-    //     event.preventDefault();
-
-    //     const formData = new FormData(event.target);
-    //     const data = Object.fromEntries(formData);
-    //     setSearch(data.search)
-    // }
+    const [searchParams] = useSearchParams({ search: '' })
+    const search = searchParams.get('search')
 
     const handlePageClick = ({ selected }) => {
         setInitialPage(selected)
