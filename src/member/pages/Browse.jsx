@@ -36,12 +36,15 @@ export default function Browse() {
 
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
-        setPublishedFrom(data.published_from)
-        setPublishedUntil(data.published_until)
+
+        const now = new Date()
+        const monthYear = new Date(now.getFullYear(), now.getMonth())
+        const monthYearPast = new Date(1970, 0)
+
+        setPublishedFrom(data.published_from ? data.published_from : monthYearPast.toLocaleString('en-US', { month: 'long', year: 'numeric' }))
+        setPublishedUntil(data.published_until ? data.published_until : monthYear.toLocaleString('en-US', { month: 'long', year: 'numeric' }))
 
         setRating(data.rating);
-
-        console.log(data)
     }
 
     return (
