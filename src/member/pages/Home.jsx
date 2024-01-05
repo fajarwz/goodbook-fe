@@ -5,9 +5,11 @@ import { useTitle } from '../../common/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { fetchBestBooks, fetchNewestBooks } from '../api/books'
 import { fetchGenres } from '../api/genres'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
     useTitle('Home | ' + config.app.name)
+    const navigate = useNavigate()
 
     const { data: dataBest, isLoading: isLoadingBest, isError: isErrorBest, error: errorBest } = useQuery({
         queryKey: ['books', 'best'],
@@ -24,8 +26,13 @@ export default function Home() {
         queryFn: ({ signal }) => fetchGenres({ signal }),
     })
 
-    const handleSearch = () => {
+    const handleSearch = event => {
+        event.preventDefault()
 
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+
+        navigate(`/browse?search=${data.search}`)
     }
 
     return (
