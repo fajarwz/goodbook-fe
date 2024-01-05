@@ -7,7 +7,7 @@ import star34 from '../assets/img/star-34.svg'
 import star1 from '../assets/img/star-1.svg'
 import starNotSet from '../assets/img/star-not-set.svg'
 
-export default function Rating({ rating = 0, addRatingClassName }) {
+export default function Rating({ rating = 0, addRatingClassName, ratingLabel }) {
     const getStar = (rating) => {
         let stars = []
 
@@ -34,7 +34,7 @@ export default function Rating({ rating = 0, addRatingClassName }) {
 
     return (
         <>
-            <span className={`inline-block ${addRatingClassName}`}>{rating}</span>
+            <span className={`inline-block ${addRatingClassName}`}>{ratingLabel ?? rating}</span>
             <div className="flex gap-0.5">
                 {getStar(rating)}
             </div>
@@ -48,4 +48,8 @@ Rating.propTypes = {
         string,
     ]).isRequired,
     addRatingClassName: string,
+    ratingLabel: oneOfType([
+        number,
+        string,
+    ]),
 }

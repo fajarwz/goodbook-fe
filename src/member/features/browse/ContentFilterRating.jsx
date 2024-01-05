@@ -1,17 +1,17 @@
 import { Rating } from "../../components";
-import { InputCheckbox } from "../../components/Form";
+import { InputRadio } from "../../components/Form";
 
 export default function ContentFilterRating() {
     const getContent = () => {
-        return [5, 4, 3, 2, 1].map(i => {
-        return <InputCheckbox key={i} name={`rating_${i}`} addClassName='mb-3'>
-            <Rating rating={i} addRatingClassName='w-4' />
-        </InputCheckbox>
+        return [0, 5, 4, 3, 2, 1].map(i => {
+        return <InputRadio key={i} name='rating' value={i} addClassName='mb-3'>
+            {i === 0 ? 'Any Rating' : <Rating rating={i} ratingLabel={i < 5 ? `${i}+` : i } addRatingClassName='w-6' />}
+        </InputRadio>
         })
     }
 
     return (
-        <div className="mb-8">
+        <div className="mb-4">
             {getContent()}
         </div>
     )

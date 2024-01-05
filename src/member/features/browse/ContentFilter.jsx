@@ -1,3 +1,4 @@
+import { func } from "prop-types";
 import ContentFilterButton from "./ContentFilterButton";
 import ContentFilterPublished from "./ContentFilterPublished";
 import ContentFilterRating from "./ContentFilterRating";
@@ -13,4 +14,8 @@ export default function ContentFilter({ handleFilter, ...attributes }) {
             </form>
         </section>
     )
+}
+
+ContentFilter.propTypes = {
+    handleFilter: func,
 }

@@ -18,6 +18,7 @@ export default function Browse() {
 
     const [publishedFrom, setPublishedFrom] = useState('');
     const [publishedUntil, setPublishedUntil] = useState('');
+    const [rating, setRating] = useState(0);
 
     const handlePageClick = ({ selected }) => {
         setInitialPage(selected)
@@ -25,8 +26,8 @@ export default function Browse() {
     }
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['books', { search }, { page }, { publishedFrom }, { publishedUntil }],
-        queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1], ...queryKey[2], ...queryKey[3], ...queryKey[4] }),
+        queryKey: ['books', { search, page, publishedFrom, publishedUntil, rating }],
+        queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1] }),
         onSuccess: window.scrollTo(0, 0),
     })
 
@@ -37,6 +38,10 @@ export default function Browse() {
         const data = Object.fromEntries(formData);
         setPublishedFrom(data.published_from)
         setPublishedUntil(data.published_until)
+
+        setRating(data.rating);
+
+        console.log(data)
     }
 
     return (

@@ -16,8 +16,8 @@ export async function fetchNewestBooks({ signal }) {
   return books;
 }
 
-export async function fetchBooks({ signal, search, page, publishedFrom, publishedUntil }) {
-  let url = `/member/books?search=${search}&page=${page}`
+export async function fetchBooks({ signal, search, page, publishedFrom, publishedUntil, rating }) {
+  let url = `/member/books?search=${search}&page=${page}&filter[ratings]=${rating}`
   if (publishedFrom !== '' && publishedUntil !== '') {
     url += `&filter[published_between]=${publishedFrom},${publishedUntil}`
   }
