@@ -62,3 +62,16 @@ export async function fetchBookBySlug({ signal, slug }) {
 
   return response.data.data.book
 }
+
+export async function fetchReviewsByBookId({ signal, bookId }) {
+  const response = await api.get(`/member/books/${bookId}/reviews`, { signal });
+
+  if (response.status >= 500) {
+    throw new Error(response.data.message);
+  }
+  else if (response.status >= 400) {
+    throw new Error(response.data.data.message);
+  }
+
+  return response.data.data.reviews
+}

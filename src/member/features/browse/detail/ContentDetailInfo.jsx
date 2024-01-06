@@ -3,7 +3,7 @@ import { Rating } from "../../../components"
 
 export default function ContentDetailInfo({ data }) {
     return (
-        <div className="mb-10">
+        <section className="mb-10">
             <div className="mb-9">
                 <h1 className="mb-3">{data.title}</h1>
                 <div className="text-2xl mb-3">{data.author.name}</div>
@@ -27,7 +27,7 @@ export default function ContentDetailInfo({ data }) {
                     {`Published ${data.published_at}`}
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

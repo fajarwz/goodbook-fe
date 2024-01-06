@@ -2,7 +2,7 @@ import { object } from "prop-types"
 
 export default function ContentDetailAuthor({ data }) {
     return (
-        <section className="md:col-span-8">
+        <section className="mb-10">
             <h2 className="mb-6">Author</h2>
             <div className="flex items-center">
                 <img src={data.author.image} alt={data.author.name} className="rounded-full mr-5 h-24 w-24" />
