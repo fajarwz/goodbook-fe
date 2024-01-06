@@ -1,9 +1,12 @@
-import { bool, object } from "prop-types"
 import { ErrorBlock, LoadingIndicator } from "../../../../common/components"
 import ContentCover from "./ContentCover"
 import ContentDetail from "./ContentDetail"
+import { useContext } from "react"
+import { BookContext } from "../../../hooks/browse/BrowseDetail"
 
-export default function Content({ data, isLoading, isError, error }) {
+export default function Content() {
+    const { dataBook: data, isLoadingBook: isLoading, isErrorBook: isError, errorBook: error } = useContext(BookContext)
+
     let content = <div className="text-center">No data found.</div>
 
     if (isLoading) {
@@ -19,8 +22,8 @@ export default function Content({ data, isLoading, isError, error }) {
 
     if (data) {
         content = <div className="grid grid-cols-1 md:grid-cols-12 mb-20">
-            <ContentCover img={data.cover} title={data.title} />
-            <ContentDetail data={data} />
+            <ContentCover />
+            <ContentDetail />
         </div>
     }
 
@@ -29,11 +32,4 @@ export default function Content({ data, isLoading, isError, error }) {
             {content}
         </section>
     )
-}
-
-Content.propTypes = {
-    data: object,
-    isLoading: bool,
-    isError: bool,
-    error: object,
 }

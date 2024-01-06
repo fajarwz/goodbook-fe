@@ -1,7 +1,7 @@
 import { Rating } from "../../../components"
 import { ErrorBlock, LoadingIndicator } from "../../../../common/components"
 import { useContext } from "react"
-import { BookReviewsContext } from "../../../hooks/BookReviewsContext"
+import { BookReviewsContext } from "../../../hooks/browse/BrowseDetail"
 import ReactPaginate from "react-paginate"
 
 export default function ContentDetailReviewsUsers() {

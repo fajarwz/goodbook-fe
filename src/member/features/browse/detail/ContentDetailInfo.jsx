@@ -1,7 +1,10 @@
-import { object } from "prop-types"
+import { useContext } from "react"
 import { Rating } from "../../../components"
+import { BookContext } from "../../../hooks/browse/BrowseDetail"
 
-export default function ContentDetailInfo({ data }) {
+export default function ContentDetailInfo() {
+    const { dataBook: data } = useContext(BookContext)
+
     return (
         <section className="mb-10">
             <div className="mb-9">
@@ -29,8 +32,4 @@ export default function ContentDetailInfo({ data }) {
             </div>
         </section>
     )
-}
-
-ContentDetailInfo.propTypes = {
-    data: object.isRequired,
 }

@@ -6,23 +6,23 @@ import { Content } from '../../features/browse/detail'
 import { useQuery } from '@tanstack/react-query'
 import { fetchBookBySlug, fetchReviewsByBookId } from '../../api/books'
 import { useParams } from 'react-router-dom'
-import { BookReviewsContext } from '../../hooks/BookReviewsContext'
+import { BookContext, BookReviewsContext } from '../../hooks/browse/BrowseDetail'
 import { useState } from 'react'
 
 export default function BrowseDetail() {
     const { slug } = useParams()
 
-    const { data, isLoading, isError, error } = useQuery({
+    const { data: dataBook, isLoading: isLoadingBook, isError: isErrorBook, error: errorBook } = useQuery({
         queryKey: ['books', { slug }],
         queryFn: ({ signal, queryKey }) => fetchBookBySlug({ signal, ...queryKey[1] }),
     })
     
-    useTitle(`${data?.name} Book | ${config.app.name}`)
+    useTitle(`${dataBook?.title} Book | ${config.app.name}`)
     
     const [reviewsInitialPage, setReviewsInitialPage] = useState(0);
     const [reviewsPage, setReviewsPage] = useState(1);
 
-    const bookId = data?.id
+    const bookId = dataBook?.id
 
     const { data: dataReviews, isLoading: isLoadingReviews, isError: isErrorReviews, error: errorReviews } = useQuery({
         queryKey: ['book_ratings', { bookId, reviewsPage }],
@@ -38,16 +38,23 @@ export default function BrowseDetail() {
     return (
         <div className='bg-customWhite-warm'>
             <Navbar />
-            <BookReviewsContext.Provider value={{ 
-                dataReviews, 
-                isLoadingReviews, 
-                isErrorReviews, 
-                errorReviews, 
-                handleReviewsPageClick,
-                reviewsInitialPage,
+            <BookContext.Provider value={{
+                dataBook, 
+                isLoadingBook, 
+                isErrorBook,
+                errorBook,
             }} >
-                <Content data={data} isLoading={isLoading} isError={isError} error={error} />
-            </BookReviewsContext.Provider>
+                <BookReviewsContext.Provider value={{ 
+                    dataReviews, 
+                    isLoadingReviews, 
+                    isErrorReviews, 
+                    errorReviews, 
+                    handleReviewsPageClick,
+                    reviewsInitialPage,
+                }} >
+                    <Content />
+                </BookReviewsContext.Provider>
+            </BookContext.Provider>
             <Footer />
         </div>
     )

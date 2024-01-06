@@ -1,14 +1,12 @@
-import { string } from "prop-types"
+import { useContext } from "react"
+import { BookContext } from "../../../hooks/browse/BrowseDetail"
 
-export default function ContentCover({ img, title }) {
+export default function ContentCover() {
+    const { dataBook: data } = useContext(BookContext)
+
     return (
         <section className="w-[23.4375rem] h-[35.9375rem] md:col-span-4">
-            <img src={img} alt={`${title}'s cover`} className="rounded-[1.25rem]" />
+            <img src={data.cover} alt={`${data.title}'s cover`} className="rounded-[1.25rem]" />
         </section>
     )
-}
-
-ContentCover.propTypes = {
-    img: string.isRequired,
-    title: string,
 }

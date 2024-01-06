@@ -1,6 +1,9 @@
-import { object } from "prop-types"
+import { useContext } from "react"
+import { BookContext } from "../../../hooks/browse/BrowseDetail"
 
-export default function ContentDetailAuthor({ data }) {
+export default function ContentDetailAuthor() {
+    const { dataBook: data } = useContext(BookContext)
+
     return (
         <section className="mb-10">
             <h2 className="mb-6">Author</h2>
@@ -13,8 +16,4 @@ export default function ContentDetailAuthor({ data }) {
             </div>
         </section>
     )
-}
-
-ContentDetailAuthor.propTypes = {
-    data: object.isRequired,
 }
