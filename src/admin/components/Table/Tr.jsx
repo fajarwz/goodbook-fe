@@ -11,8 +11,7 @@ export default function Tr({ addClassName, children, ...attributes }) {
 Tr.propTypes = {
     addClassName: PropTypes.string,
     children: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.object,
+        PropTypes.array,
+        PropTypes.element,
     ]),
 }

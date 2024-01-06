@@ -14,11 +14,9 @@ export default function Promotion({ title, data, isLoading, isError, error }) {
     }
 
     if (isError) {
-        content = <ErrorBlock
-            title="An error occured"
-            message={error.info?.message || 'Failed to fetch data'}
-        />
+        content = <ErrorBlock title={error.message} />
     }
+
     if (data?.length > 0) {
         content = (
             <div className='grid grid-rows-1 md:grid-cols-2 gap-10'>

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { Logo, Heading, LoginForm } from '../features/login';
+import { LoginForm, Header } from '../features/login';
 import { login } from '../api/auth';
 import { ErrorBlock } from '../../common/components';
 
@@ -17,7 +17,7 @@ function Login() {
     mutate({ formData: data })
   }
 
-  const { mutate, data, isPending, isError } = useMutation({
+  const { mutate, isPending, isError, error } = useMutation({
     mutationFn: login,
     onSuccess: () => {
       navigate('/admin/dashboard');
@@ -25,31 +25,32 @@ function Login() {
   })
 
   let errorNotif = <></>
-  if (data?.status === 'fail') {
-    errorNotif = <ErrorBlock title='' message={
-      <ul className='mb-0'>
-        {Object.entries(data.data).map(([key, error]) => (
-          <li key={key}>{error}</li>
-        ))}
-      </ul>
-    } />
+  if (isError) {
+    console.log(error)
+    if (error instanceof Error) {
+      errorNotif = <ErrorBlock title={error.message} message='' />
+    }
+    else {
+      errorNotif = <ErrorBlock title='' message={
+        <ul className='mb-0'>
+          {Object.entries(error).map(([key, message]) => (
+            <li className='list-disc' key={key}>{message}</li>
+          ))}
+        </ul>
+      } /> 
+    }
   }
 
   return (
     <>
       <div className="flex items-center justify-center flex-col h-screen">
-        <div className="mb-10">
-          <Logo />
-          <Heading text="Login to continue" />
-        </div>
-        <div>
-          <LoginForm
-            handleSubmit={handleSubmit}
-            isError={isError}
-            errorNotif={errorNotif}
-            isPending={isPending}
-          />
-        </div>
+        <Header />
+        <LoginForm
+          handleSubmit={handleSubmit}
+          isError={isError}
+          errorNotif={errorNotif}
+          isPending={isPending}
+        />
       </div>
     </>
   )

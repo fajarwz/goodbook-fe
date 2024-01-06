@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
 
-import { ErrorBlock } from "../../../common/components"
 import { Input } from "../../components/Form"
 
-export default function LoginForm({ handleSubmit, isError, errorNotif, isPending }) {
+export default function LoginForm({ handleSubmit, errorNotif, isPending }) {
     return (
-        <>
-            {isError && <ErrorBlock />}
+        <div className='max-w-80'>
             {errorNotif}
             <form onSubmit={handleSubmit}>
                 <div className='mb-4'>
@@ -25,13 +23,12 @@ export default function LoginForm({ handleSubmit, isError, errorNotif, isPending
                     <button type='submit' className={`btn btn-primary w-full ${isPending ? 'disabled' : ''}`}>{isPending ? 'Please wait...' : 'Log In'}</button>
                 </div>
             </form>
-        </>
+        </div>
     )
 }
 
 LoginForm.propTypes = {
     handleSubmit: PropTypes.func,
-    isError: PropTypes.bool,
     errorNotif: PropTypes.element,
     isPending: PropTypes.bool,
 }

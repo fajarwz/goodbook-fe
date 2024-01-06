@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import logo from '../assets/img/Goodbook.png'
 import searchIcon from '../assets/img/search.svg'
@@ -9,6 +9,7 @@ import { useState } from 'react'
 
 export default function Navbar() {
     const [showHamburgerNav, setShowHamburgerNav] = useState(false)
+    const navigate = useNavigate()
 
     const toggleHamburgerBtnClick = () => {
         setShowHamburgerNav(!showHamburgerNav)
@@ -16,6 +17,8 @@ export default function Navbar() {
 
     const [searchParams, setSearchParams] = useSearchParams({ search: '' })
     const search = searchParams.get('search')
+    
+    const location = useLocation();
 
     const handleSearch = event => {
         event.preventDefault()
@@ -27,6 +30,9 @@ export default function Navbar() {
             prev.set('search', data.search)
             return prev
         }, { replace: true })
+
+        if (location.pathname !== '/browse')
+            navigate(`/browse?search=${data.search}`)
     }
 
     return (

@@ -4,8 +4,14 @@ import { deleteAuth, storeAuthToken, storeAuthUser } from '../utils/token';
 export async function login({ formData }) {
   const response = await api.post('/admin/login', JSON.stringify(formData));
 
-  if (response.data.status === 'fail') {
-    return response.data
+  if (response.status >= 500) {
+    throw new Error(response.data.message);
+  }
+  else if (response.status === 422 || response.status === 401) {
+    throw response.data.data;
+  }
+  else if (response.status >= 400) {
+    throw new Error(response.data.data.message);
   }
 
   const { user, access_token } = response.data.data

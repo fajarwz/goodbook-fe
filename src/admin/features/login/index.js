@@ -1,5 +1,5 @@
 import Logo from "./Logo";
-import Heading from "./Heading";
+import Header from "./Header";
 import LoginForm from "./LoginForm";
 
-export { Logo, Heading, LoginForm }
+export { Logo, Header, LoginForm }

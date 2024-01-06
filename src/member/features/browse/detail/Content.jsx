@@ -13,9 +13,7 @@ export default function Content({ data, isLoading, isError, error }) {
     }
 
     if (isError) {
-        console.log(error)
-        content = <ErrorBlock
-            title={error.message}
+        content = <ErrorBlock title={error.message}
         />
     }
 

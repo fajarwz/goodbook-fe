@@ -13,10 +13,7 @@ export default function ContentList({ books, isLoading, isError, error, handlePa
     }
 
     if (isError) {
-        content = <ErrorBlock
-            title="An error occured"
-            message={error.info?.message || 'Failed to fetch data'}
-        />
+        content = <ErrorBlock title={error.message} />
     }
 
     if (books?.data.length > 0) {

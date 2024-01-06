@@ -5,24 +5,20 @@ import search from '../../assets/img/search.svg'
 import { ErrorBlock, LoadingIndicator } from '../../../common/components';
 
 export default function Uncover({ title, handleSearch, data, isLoading, isError, error }) {
-    let loadingOrErrorPlaceholder = <></>
+    let content = <></>
 
     if (isLoading) {
-        loadingOrErrorPlaceholder = <div className="text-center">
+        content = <div className="text-center">
             <LoadingIndicator />
         </div>
     }
 
     if (isError) {
-        loadingOrErrorPlaceholder = <ErrorBlock
-            title="An error occured"
-            message={error.info?.message || 'Failed to fetch data'}
-        />
+        content = <ErrorBlock title={error.message} />
     }
 
-    let dataElems = <></>
     if (data) {
-        dataElems = <ul className='flex flex-wrap gap-x-7 gap-y-4 justify-center font-bold'>
+        content = <ul className='flex flex-wrap gap-x-7 gap-y-4 justify-center font-bold'>
             {data.map(obj => {
                 return <li key={obj.id}><Link>{obj.name}</Link></li>
             })}
@@ -38,8 +34,7 @@ export default function Uncover({ title, handleSearch, data, isLoading, isError,
                     <img src={search} alt="Search icon" className="relative right-9" />
                 </form>
                 <div>
-                    {loadingOrErrorPlaceholder}
-                    {dataElems}
+                    {content}
                 </div>
             </div>
         </section>

@@ -9,10 +9,6 @@ export default function Td({ addClassName, children, ...attributes }) {
 }
 
 Td.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.object,
-    ]),
+    children: PropTypes.any,
     addClassName: PropTypes.string,
 }

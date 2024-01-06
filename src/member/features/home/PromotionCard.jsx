@@ -8,11 +8,11 @@ import { Cover } from '../../components/Image';
 export default function PromotionCard({ book }) {
     return (
         <div className='flex'>
-            <Link>
+            <Link to={`/browse/${book.slug}`}>
                 <Cover book={book.title} cover={book.cover} />
             </Link>
             <div className="ml-8">
-                <Link>
+                <Link to={`/browse/${book.slug}`}>
                     <h2 className="mb-2">{book.title}</h2>
                 </Link>
                 <p className="mb-2">{book.author.name}</p>
