@@ -1,4 +1,3 @@
-import { object } from "prop-types"
 import ContentDetailReviewsAuth from "./ContentDetailReviewsAuth"
 import ContentDetailReviewsUsers from "./ContentDetailReviewsUsers"
 
@@ -10,8 +9,4 @@ export default function ContentDetailReviews() {
             <ContentDetailReviewsUsers />
         </section>
     )
-}
-
-ContentDetailReviews.propTypes = {
-    data: object.isRequired,
 }

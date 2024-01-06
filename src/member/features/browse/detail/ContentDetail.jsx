@@ -5,7 +5,7 @@ import ContentDetailReviews from "./ContentDetailReviews"
 
 export default function ContentDetail({ data }) {
     return (
-        <section className="md:col-span-8 mb-10">
+        <section className="md:col-span-8">
             <ContentDetailInfo data={data} />
             <ContentDetailAuthor data={data} />
             <ContentDetailReviews data={data} />

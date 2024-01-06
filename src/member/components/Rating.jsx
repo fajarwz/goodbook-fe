@@ -7,10 +7,10 @@ import star34 from '../assets/img/star-34.svg'
 import star1 from '../assets/img/star-1.svg'
 import starNotSet from '../assets/img/star-not-set.svg'
 
-export default function Rating({ rating = 0, addClassName = '', addRatingClassName = '', ratingLabel = '', addStarClassName = '' }) {
+export default function Rating({ rating = 0, addClassName = '', addRatingClassName = '', ratingLabel = null, addStarClassName = '' }) {
     const getRating = () => {
         if (ratingLabel || rating) {
-            return <span className={`inline-block ${addRatingClassName}`}>{ratingLabel !== '' ? ratingLabel : rating}</span>
+            return <span className={`inline-block ${addRatingClassName}`}>{ratingLabel !== '' ? (ratingLabel ?? rating) : ''}</span>
         }
     }
 

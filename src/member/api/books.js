@@ -63,8 +63,8 @@ export async function fetchBookBySlug({ signal, slug }) {
   return response.data.data.book
 }
 
-export async function fetchReviewsByBookId({ signal, bookId }) {
-  const response = await api.get(`/member/books/${bookId}/reviews`, { signal });
+export async function fetchReviewsByBookId({ signal, bookId, reviewsPage }) {
+  const response = await api.get(`/member/books/${bookId}/reviews?page=${reviewsPage}`, { signal });
 
   if (response.status >= 500) {
     throw new Error(response.data.message);
