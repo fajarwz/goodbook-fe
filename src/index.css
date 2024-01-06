@@ -26,7 +26,7 @@ h2 {
 }
 
 h3 {
-  @apply text-xl
+  @apply text-xl leading-[1.5625rem]
 }
 
 h4 {
@@ -37,7 +37,7 @@ p {
   @apply leading-5
 }
 
-h3, h4, h5, h6, ol:not(li ol), ul:not(li ul), dl, blockquote, pre, table {
+h4, h5, h6, ol:not(li ol), ul:not(li ul), dl, blockquote, pre, table {
   @apply leading-relaxed mb-4
 }
 

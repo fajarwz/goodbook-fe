@@ -1,11 +1,11 @@
-import { Footer, Navbar } from '../components'
+import { Footer, Navbar } from '../../components'
 
-import config from '../utils/config'
-import { useTitle } from '../../common/hooks'
-import { Header, Content } from '../features/browse'
+import config from '../../utils/config'
+import { useTitle } from '../../../common/hooks'
+import { Header, Content } from '../../features/browse'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { fetchBooks } from '../api/books'
+import { fetchBooks } from '../../api/books'
 import { useSearchParams } from 'react-router-dom'
 
 export default function Browse() {

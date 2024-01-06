@@ -9,11 +9,11 @@ import { Cover } from "../../components/Image";
 export default function ContentListCard({ book }) {
     return (
         <div className='flex mb-8'>
-            <Link>
+            <Link to={`/browse/${book.slug}`}>
                 <Cover book={book.title} cover={book.cover} />
             </Link>
             <div className="ml-8">
-                <Link>
+                <Link to={`/browse/${book.slug}`}>
                     <h2 className="mb-2">{book.title}</h2>
                 </Link>
                 <div className="mb-2">{book.author?.name}</div>

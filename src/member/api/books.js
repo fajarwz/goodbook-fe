@@ -28,3 +28,13 @@ export async function fetchBooks({ signal, search, page, publishedFrom, publishe
 
   return books;
 }
+
+export async function fetchBookBySlug({ signal, slug }) {
+  const response = await api.get(`/member/books/${slug}`, { signal });
+
+  if (response.status === 404) {
+    throw new Error(response.data.data.message);
+  }
+
+  return response.data.data.book
+}

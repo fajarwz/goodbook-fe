@@ -29,4 +29,5 @@ Content.propTypes = {
     initialPage: number.isRequired,
     handlePageClick: func.isRequired,
     pageCount: number,
+    handleFilter: func,
 }
