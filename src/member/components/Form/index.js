@@ -1,4 +1,5 @@
 import Input from "./Input";
 import InputRadio from "./InputRadio";
+import InputBlock from "./InputBlock";
 
-export { Input, InputRadio };
+export { Input, InputRadio, InputBlock };

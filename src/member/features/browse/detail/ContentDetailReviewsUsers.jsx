@@ -1,15 +1,15 @@
 import { Rating } from "../../../components"
 import { ErrorBlock, LoadingIndicator } from "../../../../common/components"
 import { useContext } from "react"
-import { BookReviewsContext } from "../../../hooks/browse/BrowseDetail"
+import { BookReviewsContext } from "../../../hooks/context/browse/browse-detail"
 import ReactPaginate from "react-paginate"
 
 export default function ContentDetailReviewsUsers() {
-    const { 
+    const {
         dataReviews: data,
-        isLoadingReviews: isLoading, 
-        isErrorReviews: isError, 
-        errorReviews: error, 
+        isLoadingReviews: isLoading,
+        isErrorReviews: isError,
+        errorReviews: error,
         handleReviewsPageClick,
         reviewsInitialPage,
     } = useContext(BookReviewsContext)

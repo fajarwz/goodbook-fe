@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { BookContext } from "../../../hooks/browse/BrowseDetail"
+import { BookContext } from "../../../hooks/context/browse/browse-detail"
 
 export default function ContentCover() {
     const { dataBook: data } = useContext(BookContext)

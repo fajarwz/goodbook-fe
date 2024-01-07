@@ -6,6 +6,8 @@ import searchIcon from '../assets/img/search.svg'
 import Logo from './Logo'
 import { JoinBtn, SignInBtn } from './Button'
 import { useState } from 'react'
+import { isAuth } from '../utils/token'
+import UserDropdown from './UserDropdown'
 
 export default function Navbar() {
     const [showHamburgerNav, setShowHamburgerNav] = useState(false)
@@ -47,12 +49,19 @@ export default function Navbar() {
                         <li><Link to='/browse'>Browse</Link></li>
                     </ul>
                     <div className='flex flex-col lg:flex-row items-start lg:items-center w-full'>
-                        <form onSubmit={handleSearch} className="flex mb-4 lg:mb-0 w-full lg:w-[350px]">
-                            <input type="text" name='search' defaultValue={search} placeholder='Search books' className="placeholder:text-gray-dark border border-orange-default rounded-md bg-transparent p-3 w-full leading-3" />
-                            <img src={searchIcon} alt="Search icon" className="relative right-9 -mr-9 lg:mr-0" />
+                        <form onSubmit={handleSearch} className="relative flex mb-4 lg:mb-0 w-full lg:w-[350px] mr-12">
+                            <input type="text" name='search' defaultValue={search} placeholder='Search books' className="placeholder:text-gray-dark border border-orange-default rounded-md bg-transparent p-3 w-[350px] leading-3" />
+                            <img src={searchIcon} alt="Search icon" className="absolute right-3 top-3 lg:mr-0" />
                         </form>
-                        <JoinBtn addClassName='mb-2 lg:mb-0' />
-                        <SignInBtn />
+                        {isAuth() 
+                            ? <>
+                                <UserDropdown />
+                            </> 
+                            : <>
+                                <JoinBtn addClassName='mb-2 lg:mb-0' />
+                                <SignInBtn />
+                            </>
+                        }
                     </div>
                 </div>
             </div>

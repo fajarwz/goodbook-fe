@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Rating } from "../../../components"
-import { BookContext } from "../../../hooks/browse/BrowseDetail"
+import { BookContext } from "../../../hooks/context/browse/browse-detail"
 
 export default function ContentDetailInfo() {
     const { dataBook: data } = useContext(BookContext)

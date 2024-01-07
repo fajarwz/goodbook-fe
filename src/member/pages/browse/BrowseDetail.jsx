@@ -6,7 +6,7 @@ import { Content } from '../../features/browse/detail'
 import { useQuery } from '@tanstack/react-query'
 import { fetchBookBySlug, fetchReviewsByBookId } from '../../api/books'
 import { useParams } from 'react-router-dom'
-import { BookContext, BookReviewsContext } from '../../hooks/browse/BrowseDetail'
+import { BookContext, BookReviewsContext } from '../../hooks/context/browse/browse-detail'
 import { useState } from 'react'
 
 export default function BrowseDetail() {
@@ -16,9 +16,9 @@ export default function BrowseDetail() {
         queryKey: ['books', { slug }],
         queryFn: ({ signal, queryKey }) => fetchBookBySlug({ signal, ...queryKey[1] }),
     })
-    
+
     useTitle(`${dataBook?.title} Book | ${config.app.name}`)
-    
+
     const [reviewsInitialPage, setReviewsInitialPage] = useState(0);
     const [reviewsPage, setReviewsPage] = useState(1);
 
@@ -39,16 +39,16 @@ export default function BrowseDetail() {
         <div className='bg-customWhite-warm'>
             <Navbar />
             <BookContext.Provider value={{
-                dataBook, 
-                isLoadingBook, 
+                dataBook,
+                isLoadingBook,
                 isErrorBook,
                 errorBook,
             }} >
-                <BookReviewsContext.Provider value={{ 
-                    dataReviews, 
-                    isLoadingReviews, 
-                    isErrorReviews, 
-                    errorReviews, 
+                <BookReviewsContext.Provider value={{
+                    dataReviews,
+                    isLoadingReviews,
+                    isErrorReviews,
+                    errorReviews,
                     handleReviewsPageClick,
                     reviewsInitialPage,
                 }} >

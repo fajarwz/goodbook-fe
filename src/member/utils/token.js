@@ -69,6 +69,16 @@ export function checkAuthLoader() {
   return null
 }
 
+export function isAuth() {
+  const token = getAuthToken()
+
+  if (!token) {
+    return false
+  }
+
+  return true
+}
+
 export function getAuthUser() {
   const user = localStorage.getItem('user')
 
