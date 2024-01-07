@@ -35,7 +35,7 @@ const UserDropdown = () => {
     mutate()
   }
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: signOut,
     onSuccess: () => {
       navigate('/');
@@ -75,11 +75,11 @@ const UserDropdown = () => {
         <a
           href="#"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:text-orange-default"
+            `text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:text-orange-default ${isPending ? 'disabled' : ''}`
           }
           onClick={handleLogout}
         >
-           Sign Out
+          {isPending ? 'Signing out...' : 'Sign Out'}
         </a>
       </div>
     </>
