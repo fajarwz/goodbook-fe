@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Card } from '../../../member/components/Card'
+import { Card } from '../../components'
 import ContentHeader from './ContentHeader'
 import ContentForm from './ContentForm'
 import { useContext } from 'react'

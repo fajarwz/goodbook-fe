@@ -18,7 +18,7 @@ export default function ContentDetailInfo() {
                 {data.description}
             </article>
             <div>
-                <ul className="flex gap-x-8 mb-4">
+                <ul className="flex flex-wrap gap-x-8 gap-y-2 mb-4">
                     {data.genres.map(genre => {
                         return <li key={genre.id} className="font-bold">{genre.name}</li>
                     })}

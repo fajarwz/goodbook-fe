@@ -63,9 +63,9 @@ export default function ContentDetailReviewsAuth() {
                         </div>
                         <textarea name='review' rows={3} className='w-full border rounded-md border-gray-default p-3 bg-transparent'></textarea>
                     </div>
-                    <div className='text-center'>
-                        <PrimaryButton type='submit' addClassName='px-7 mr-2'>{isSubmitting ? 'Submitting...' : 'Submit Review'}</PrimaryButton>
-                        <SecondaryButton type='button' onClick={handleCancelReview}>Cancel</SecondaryButton>
+                    <div className='text-center flex flex-col md:flex-row justify-center'>
+                        <PrimaryButton type='submit' addClassName='px-7 md:mr-2 mb-2 md:mb-0'>{isSubmitting ? 'Submitting...' : 'Submit Review'}</PrimaryButton>
+                        <SecondaryButton type='button' addClassName='w-full md:w-28' onClick={handleCancelReview}>Cancel</SecondaryButton>
                     </div>
                 </form>
             </Modal>}
