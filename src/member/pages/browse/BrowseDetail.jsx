@@ -3,11 +3,12 @@ import { Footer, Navbar } from '../../components'
 import config from '../../utils/config'
 import { useTitle } from '../../../common/hooks'
 import { Content } from '../../features/browse/detail'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchBookBySlug, fetchReviewsByBookId } from '../../api/books'
 import { useParams } from 'react-router-dom'
 import { BookContext, BookReviewsContext } from '../../hooks/context/browse/browse-detail'
 import { useState } from 'react'
+import { submitReview } from '../../api/reviews'
 
 export default function BrowseDetail() {
     const { slug } = useParams()
@@ -35,6 +36,25 @@ export default function BrowseDetail() {
         setReviewsPage(selected + 1)
     }
 
+    const [starChoosen, setStarChoosen] = useState(-1)
+
+    const handleSubmitReview = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        let data = Object.fromEntries(formData);
+        data.book_id = bookId
+
+        mutate({ formData: data })
+    }
+
+    const { mutate, isPending, isError, error } = useMutation({
+        mutationFn: submitReview,
+        onSettled: () => {
+            setStarChoosen(-1)
+        },
+    })
+
     return (
         <div className='bg-customWhite-warm'>
             <Navbar />
@@ -51,6 +71,12 @@ export default function BrowseDetail() {
                     errorReviews,
                     handleReviewsPageClick,
                     reviewsInitialPage,
+                    starChoosen,
+                    setStarChoosen,
+                    handleSubmitReview,
+                    isPending,
+                    isError,
+                    error,
                 }} >
                     <Content />
                 </BookReviewsContext.Provider>
