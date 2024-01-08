@@ -9,8 +9,11 @@ export default function ContentHeader() {
                 <Logo logo={logo} addClassName='mb-10' />
             </Link>
             <div className='mb-10'>
-                <h1 className='mb-4'>Rejoin the adventure</h1>
-                <div>Continue reading</div>
+                <h1 className='mb-4'>
+                    Share your voice <br />
+                    with the reading world
+                </h1>
+                <div>Fuel your reading passion with like-minded readers</div>
             </div>
         </header>
     )

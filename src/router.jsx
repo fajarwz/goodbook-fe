@@ -5,6 +5,7 @@ import { Admin } from './admin/layouts';
 import { Books, Dashboard, Login, Members, Reviews } from './admin/pages';
 import { Home, SignIn } from './member/pages';
 import { Browse, BrowseDetail } from './member/pages/browse';
+import Join from './member/pages/Join';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: '/sign-in',
     element: <SignIn />,
+  },
+  {
+    path: '/join',
+    element: <Join />,
   },
   {
     path: '/browse',

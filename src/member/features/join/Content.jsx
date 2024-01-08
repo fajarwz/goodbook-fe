@@ -3,10 +3,10 @@ import { Card } from '../../components'
 import ContentHeader from './ContentHeader'
 import ContentForm from './ContentForm'
 import { useContext } from 'react'
-import { SignInContext } from '../../hooks/context/auth'
+import { JoinContext } from '../../hooks/context/auth'
 
 export default function Content() {
-    const { errorNotif } = useContext(SignInContext)
+    const { errorNotif } = useContext(JoinContext)
 
     return (
         <>
@@ -17,7 +17,7 @@ export default function Content() {
                         {errorNotif}
                         <ContentForm />
                         <div className='text-center'>
-                            Don&apos;t have an account? <Link to='/join' className='font-bold'>Join</Link>
+                            Already have an account? <Link to='/sign-in' className='font-bold'>Sign In</Link>
                         </div>
                     </Card>
                 </div>
