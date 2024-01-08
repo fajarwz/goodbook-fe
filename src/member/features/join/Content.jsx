@@ -10,7 +10,7 @@ export default function Content() {
 
     return (
         <>
-            <div className="col-span-12 md:col-span-6 flex flex-col items-start justify-center py-10">
+            <div className="flex flex-col items-start justify-center py-10 md:pr-10 w-full lg:w-auto">
                 <div className='w-full md:w-min px-8 md:px-0'>
                     <ContentHeader />
                     <Card addClassName='w-full' >

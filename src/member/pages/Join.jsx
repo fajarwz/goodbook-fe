@@ -42,7 +42,7 @@ export default function Join() {
     }
 
     return (
-        <div className="bg-customWhite-warm grid grid-cols-12 min-h-screen overflow-y-hidden">
+        <div className="bg-customWhite-warm flex flex-row flex-grow-0 min-h-screen overflow-y-hidden">
             <Hero />
             <JoinContext.Provider value={{
                 handleSubmit,
