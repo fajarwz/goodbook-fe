@@ -1,10 +1,13 @@
 import { Footer, Navbar } from '../../components'
 
 import config from '../../utils/config'
+import queryClient from '../../../common/utils/queryClient';
+
 import { useTitle } from '../../../common/hooks'
 import { Content } from '../../features/browse/detail'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { fetchBookBySlug, fetchReviewsByBookId } from '../../api/books'
+import { fetchBookBySlug } from '../../api/books'
+import { checkIsReviewedByUser, fetchReviewsByBookId } from '../../api/book-reviews'
 import { useParams } from 'react-router-dom'
 import { BookContext, BookReviewsContext } from '../../hooks/context/browse/browse-detail'
 import { useState } from 'react'
@@ -25,8 +28,14 @@ export default function BrowseDetail() {
 
     const bookId = dataBook?.id
 
+    const { data: dataReviewsCheck, isLoading: isLoadingReviewsCheck, isError: isErrorReviewsCheck, error: errorReviewsCheck } = useQuery({
+        queryKey: ['book_reviews_check', { bookId }],
+        queryFn: ({ signal, queryKey }) => checkIsReviewedByUser({ signal, ...queryKey[1] }),
+        enabled: !!bookId,
+    })
+
     const { data: dataReviews, isLoading: isLoadingReviews, isError: isErrorReviews, error: errorReviews } = useQuery({
-        queryKey: ['book_ratings', { bookId, reviewsPage }],
+        queryKey: ['book_reviews', { bookId, reviewsPage }],
         queryFn: ({ signal, queryKey }) => fetchReviewsByBookId({ signal, ...queryKey[1] }),
         enabled: !!bookId,
     })
@@ -51,7 +60,10 @@ export default function BrowseDetail() {
     const { mutate, isPending, isError, error } = useMutation({
         mutationFn: submitReview,
         onSettled: () => {
+            // close submit review modal
             setStarChoosen(-1)
+
+            queryClient.invalidateQueries(['book_reviews', { bookId, reviewsPage }])
         },
     })
 
@@ -65,6 +77,10 @@ export default function BrowseDetail() {
                 errorBook,
             }} >
                 <BookReviewsContext.Provider value={{
+                    dataReviewsCheck,
+                    isLoadingReviewsCheck,
+                    isErrorReviewsCheck,
+                    errorReviewsCheck,
                     dataReviews,
                     isLoadingReviews,
                     isErrorReviews,

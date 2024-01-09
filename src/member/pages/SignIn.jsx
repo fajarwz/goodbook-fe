@@ -26,7 +26,6 @@ export default function SignIn() {
 
     let errorNotif = <></>
     if (isError) {
-        console.log(error)
         if (error instanceof Error) {
             errorNotif = <ErrorBlock title={error.message} message='' />
         }

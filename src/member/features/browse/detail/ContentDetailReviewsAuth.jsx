@@ -3,19 +3,24 @@ import starNotSet from '../../../assets/img/star-not-set.svg'
 import { useContext, useState } from "react"
 import Modal from '../../../components/Modal'
 import { Rating } from '../../../components'
-import { PrimaryButton, SecondaryButton } from '../../../components/Button'
+import { PrimaryButton, PrimaryLink, SecondaryButton } from '../../../components/Button'
 import { BookReviewsContext } from '../../../hooks/context/browse/browse-detail'
-import { ErrorBlock } from '../../../../common/components'
+import { ErrorBlock, LoadingIndicator, SuccessBlock } from '../../../../common/components'
+import { isAuth } from '../../../utils/token'
 
 export default function ContentDetailReviewsAuth() {
     const [starFill, setStarFill] = useState(Array(5).fill(false))
     const { 
+        dataReviewsCheck,
+        isLoadingReviewsCheck,
+        isErrorReviewsCheck,
+        errorReviewsCheck,
         starChoosen, 
         setStarChoosen, 
         handleSubmitReview, 
         isPending, 
         isError, 
-        error 
+        error,
     } = useContext(BookReviewsContext)
 
     const handleMouseHoverStar = (index) => {
@@ -34,19 +39,23 @@ export default function ContentDetailReviewsAuth() {
         setStarChoosen(-1);
     };
 
-    let errorNotif = <></>
+    let notif = <></>
     if (isError) {
         if (error instanceof Error) {
-            errorNotif = <ErrorBlock title={error.message} message='' />
+            notif = <div className='w-full'>
+                <ErrorBlock title={error.message} message='' />
+            </div>
         }
         else {
-            errorNotif = <ErrorBlock title='' message={
-                <ul className='mb-0'>
-                    {Object.entries(error).map(([key, message]) => (
-                        <li className='list-disc' key={key}>{message}</li>
-                    ))}
-                </ul>
-            } />
+            notif = <div className='w-full'>
+                <ErrorBlock title='' message={
+                    <ul className='mb-0'>
+                        {Object.entries(error).map(([key, message]) => (
+                            <li className='list-disc' key={key}>{message}</li>
+                        ))}
+                    </ul>
+                } />
+            </div>
         }
     }
 
@@ -65,17 +74,38 @@ export default function ContentDetailReviewsAuth() {
     }
 
     let content = <></>
-    // if (isReviewed) {
-    //     content = <SuccessBlock title='You already reviewed this book.' />
-    // }
-    // else {
-        content = (
-            <section className="mb-10 bg-white p-8 flex flex-col items-center justify-center rounded-xl">
-                <h3 className="mb-4">What do you think?</h3>
-                {errorNotif}
+    if (isLoadingReviewsCheck) {
+        content = <div className="text-center">
+            <LoadingIndicator />
+        </div>
+    }
+
+    if (isErrorReviewsCheck) {
+        content = <ErrorBlock title={errorReviewsCheck.message} />
+    }
+
+    if (dataReviewsCheck?.is_reviewed_by_user) {
+        content = <SuccessBlock title='You have reviewed this book.' />
+    }
+    else {
+        let cta = <>
+            <div className='mb-4'>Sign in to give review</div>
+            <PrimaryLink to='/sign-in' addClassName='w-28'>Sign In</PrimaryLink>
+        </>
+
+        if (isAuth()) {
+            cta = (
                 <div className='flex gap-0.5'>
                     {generateStar()}
                 </div>
+            )
+        }
+
+        content = (
+            <section className="mb-10 bg-white p-8 flex flex-col items-center justify-center rounded-xl">
+                <h3 className="mb-4">What do you think?</h3>
+                {notif}
+                {cta}
                 {starChoosen >= 0 && <Modal onClose={handleCancelReview}>
                     <h3 className="mb-4">What do you think?</h3>
                     <form onSubmit={handleSubmitReview} className='w-full'>
@@ -94,8 +124,7 @@ export default function ContentDetailReviewsAuth() {
                 </Modal>}
             </section>
         )
-    // }
+    }
 
-    // return (isReviewed && content)
     return content
 }
