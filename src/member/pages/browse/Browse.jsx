@@ -13,12 +13,24 @@ export default function Browse() {
 
     const [initialPage, setInitialPage] = useState(0);
     const [page, setPage] = useState(1);
-    const [searchParams] = useSearchParams({ search: '' })
-    const search = searchParams.get('search')
 
-    const [publishedFrom, setPublishedFrom] = useState('');
-    const [publishedUntil, setPublishedUntil] = useState('');
-    const [rating, setRating] = useState(0);
+    const now = new Date()
+    const monthYear = new Date(now.getFullYear(), now.getMonth())
+    const monthYearPast = new Date(1970, 0)
+    const dateConfig = { month: 'long', year: 'numeric' }
+    const fromDefault = monthYearPast.toLocaleString('en-US', dateConfig)
+    const untilDefault = monthYear.toLocaleString('en-US', dateConfig)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+    const search = searchParams.get('search') ?? ''
+    const publishedFrom = searchParams.get('published_from') ?? fromDefault
+    const publishedUntil = searchParams.get('published_until') ?? untilDefault
+    const rating = searchParams.get('rating') ?? 0
+
+    console.log(search)
+    console.log(publishedFrom)
+    console.log(publishedUntil)
+    console.log(rating)
 
     const handlePageClick = ({ selected }) => {
         setInitialPage(selected)
@@ -31,25 +43,30 @@ export default function Browse() {
         onSuccess: window.scrollTo(0, 0),
     })
 
+    const isSearching = () => {
+        setInitialPage(0)
+        setPage(1)
+    }
+
     const handleFilter = (event) => {
         event.preventDefault()
 
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
 
-        const now = new Date()
-        const monthYear = new Date(now.getFullYear(), now.getMonth())
-        const monthYearPast = new Date(1970, 0)
+        setSearchParams(prev => {
+            prev.set('published_from', data.published_from ? data.published_from : fromDefault)
+            prev.set('published_until', data.published_until ? data.published_until : untilDefault)
+            prev.set('rating', data.rating)
+            return prev
+        }, { replace: true })
 
-        setPublishedFrom(data.published_from ? data.published_from : monthYearPast.toLocaleString('en-US', { month: 'long', year: 'numeric' }))
-        setPublishedUntil(data.published_until ? data.published_until : monthYear.toLocaleString('en-US', { month: 'long', year: 'numeric' }))
-
-        setRating(data.rating);
+        isSearching()
     }
 
     return (
         <div className='bg-customWhite-warm'>
-            <Navbar />
+            <Navbar isSearching={isSearching} />
             <Header title='Discover Great Reads' subtitle='Dive into a sea of great titles' />
             <Content 
                 books={data} 

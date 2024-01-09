@@ -8,8 +8,9 @@ import { JoinBtn, SignInBtn } from './Button'
 import { useState } from 'react'
 import { isAuth } from '../utils/token'
 import UserDropdown from './UserDropdown'
+import { func } from 'prop-types'
 
-export default function Navbar() {
+export default function Navbar({ isSearching }) {
     const [showHamburgerNav, setShowHamburgerNav] = useState(false)
     const navigate = useNavigate()
 
@@ -17,8 +18,8 @@ export default function Navbar() {
         setShowHamburgerNav(!showHamburgerNav)
     }
 
-    const [searchParams, setSearchParams] = useSearchParams({ search: '' })
-    const search = searchParams.get('search')
+    const [searchParams, setSearchParams] = useSearchParams()
+    const search = searchParams.get('search') ?? ''
     
     const location = useLocation();
 
@@ -35,6 +36,8 @@ export default function Navbar() {
 
         if (location.pathname !== '/browse')
             navigate(`/browse?search=${data.search}`)
+
+        isSearching()
     }
 
     return (
@@ -67,4 +70,8 @@ export default function Navbar() {
             </div>
         </nav>
     )
+}
+
+Navbar.propTypes = {
+    isSearching: func,
 }
