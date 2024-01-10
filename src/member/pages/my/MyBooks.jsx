@@ -16,14 +16,11 @@ export default function MyBooks() {
     const [page, setPage] = useState(1);
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const searchRef = useRef()
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const radioButtonsRefs = useRef([]);
     useEffect(() => {
         if (searchParams.get('reset_filter')) {
-            searchRef.current.value = ''
-
             setStartDate()
             setEndDate()
 
@@ -87,7 +84,7 @@ export default function MyBooks() {
 
     return (
         <div className='bg-customWhite-warm'>
-            <Navbar isSearching={isSearching} searchRef={searchRef} />
+            <Navbar isSearching={isSearching} />
             <Header title='My Books' subtitle='List of all reviews and ratings that I have given' />
             <BooksContext.Provider value={{
                 radioButtonsRefs,
