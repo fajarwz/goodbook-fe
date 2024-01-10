@@ -17,7 +17,7 @@ export default function ContentListCard({ review }) {
                 </Link>
                 <div className="mb-2">{review.book.author.name}</div>
                 <div className="text-gray-default mb-8">{`Avg. Rating ${review.book.avg_rating}`}</div>
-                <div className={`mb-2 ${!review.review ? 'italic' : ''}`}>{review.review ?? 'No review given'}</div>
+                <div className={`mb-2 ${!review.review ? 'italic text-gray-default' : ''}`}>{review.review ?? 'No review given.'}</div>
                 <div className="flex mb-2">
                     <Rating rating={review.rating} ratingLabel='' />
                 </div>
