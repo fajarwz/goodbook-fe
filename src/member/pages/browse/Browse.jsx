@@ -4,15 +4,43 @@ import config from '../../utils/config'
 import { useTitle } from '../../../common/hooks'
 import { Header, Content } from '../../features/browse'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fetchBooks } from '../../api/books'
 import { useSearchParams } from 'react-router-dom'
+import { BooksContext } from '../../hooks/context/browse/browse'
 
 export default function Browse() {
     useTitle('Browse | ' + config.app.name)
+    console.log('here')
 
     const [initialPage, setInitialPage] = useState(0);
     const [page, setPage] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const searchRef = useRef()
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    const radioButtonsRefs = useRef([]);
+    useEffect(() => {
+        if (searchParams.get('reset_filter')) {
+            searchRef.current.value = ''
+
+            setStartDate()
+            setEndDate()
+
+            radioButtonsRefs.current.forEach((radioButton) => {
+                if (radioButton) {
+                    radioButton.checked = false;
+                }
+            });
+            // any rating checked by default
+            if (radioButtonsRefs.current[0]) {
+                radioButtonsRefs.current[0].checked = true;
+            }
+
+            setSearchParams(new URLSearchParams({}), { replace: true });
+        }
+    }, [searchParams, setSearchParams])
 
     const now = new Date()
     const monthYear = new Date(now.getFullYear(), now.getMonth())
@@ -21,16 +49,10 @@ export default function Browse() {
     const fromDefault = monthYearPast.toLocaleString('en-US', dateConfig)
     const untilDefault = monthYear.toLocaleString('en-US', dateConfig)
 
-    const [searchParams, setSearchParams] = useSearchParams()
     const search = searchParams.get('search') ?? ''
     const publishedFrom = searchParams.get('published_from') ?? fromDefault
     const publishedUntil = searchParams.get('published_until') ?? untilDefault
     const rating = searchParams.get('rating') ?? 0
-
-    console.log(search)
-    console.log(publishedFrom)
-    console.log(publishedUntil)
-    console.log(rating)
 
     const handlePageClick = ({ selected }) => {
         setInitialPage(selected)
@@ -66,17 +88,24 @@ export default function Browse() {
 
     return (
         <div className='bg-customWhite-warm'>
-            <Navbar isSearching={isSearching} />
+            <Navbar isSearching={isSearching} searchRef={searchRef} />
             <Header title='Discover Great Reads' subtitle='Dive into a sea of great titles' />
-            <Content 
-                books={data} 
-                isLoading={isLoading} 
-                isError={isError} 
-                error={error} 
-                handlePageClick={handlePageClick} 
-                initialPage={initialPage} 
-                handleFilter={handleFilter}
-            />
+            <BooksContext.Provider value={{
+                radioButtonsRefs,
+                startDate,
+                endDate,
+                setStartDate,
+                setEndDate,
+                data,
+                isLoading,
+                isError,
+                error,
+                handlePageClick,
+                initialPage,
+                handleFilter,
+            }} >
+                <Content />
+            </BooksContext.Provider>
             <Footer />
         </div>
     )

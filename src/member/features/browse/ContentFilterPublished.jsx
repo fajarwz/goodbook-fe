@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { BooksContext } from '../../hooks/context/browse/browse';
 
 export default function ContentFilterPublished() {
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+    const { startDate, endDate, setStartDate, setEndDate } = useContext(BooksContext)
 
     return (
         <div className="flex flex-wrap gap-2 mb-4">

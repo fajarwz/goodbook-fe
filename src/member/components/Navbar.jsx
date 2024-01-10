@@ -8,9 +8,9 @@ import { JoinBtn, SignInBtn } from './Button'
 import { useState } from 'react'
 import { isAuth } from '../utils/token'
 import UserDropdown from './UserDropdown'
-import { func } from 'prop-types'
+import { func, object } from 'prop-types'
 
-export default function Navbar({ isSearching }) {
+export default function Navbar({ isSearching, searchRef }) {
     const [showHamburgerNav, setShowHamburgerNav] = useState(false)
     const navigate = useNavigate()
 
@@ -40,6 +40,13 @@ export default function Navbar({ isSearching }) {
         isSearching()
     }
 
+    const generateNav = () => {
+        if (location.pathname === '/browse')
+            return <li><Link to='/browse?reset_filter=1'>Browse</Link></li>
+
+        return <li><Link to='/browse'>Browse</Link></li>
+    }
+
     return (
         <nav className="bg-customWhite-warm min-h-20 flex flex-row items-center mb-9">
             <div className="container flex flex-col lg:flex-row h-full">
@@ -49,11 +56,11 @@ export default function Navbar({ isSearching }) {
                 </div>
                 <div className={`flex-col lg:flex lg:flex-row items-center justify-between lg:w-full bg-white lg:bg-inherit p-4 lg:p-0 rounded-md ${showHamburgerNav ? 'flex' : 'hidden'}`}>
                     <ul className='mb-8 lg:mb-0 lg:ml-14 font-bold w-full'>
-                        <li><Link to='/browse'>Browse</Link></li>
+                        {generateNav()}
                     </ul>
                     <div className='flex flex-col lg:flex-row items-start lg:items-center w-full'>
                         <form onSubmit={handleSearch} className="relative flex mb-4 lg:mb-0 w-full lg:w-[350px] mr-12">
-                            <input type="text" name='search' defaultValue={search} placeholder='Search books' className="placeholder:text-gray-dark border border-orange-default rounded-md bg-transparent p-3 w-[350px] leading-3" />
+                            <input type="text" name='search' defaultValue={search} ref={searchRef} placeholder='Search books' className="placeholder:text-gray-dark border border-orange-default rounded-md bg-transparent p-3 w-[350px] leading-3" />
                             <img src={searchIcon} alt="Search icon" className="absolute right-3 top-3 lg:mr-0" />
                         </form>
                         {isAuth() 
@@ -74,4 +81,5 @@ export default function Navbar({ isSearching }) {
 
 Navbar.propTypes = {
     isSearching: func,
+    searchRef: object,
 }

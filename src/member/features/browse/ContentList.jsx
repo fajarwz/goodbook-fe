@@ -1,9 +1,19 @@
-import { bool, func, number, object } from "prop-types";
 import ContentListCard from "./ContentListCard";
 import { ErrorBlock, LoadingIndicator } from "../../../common/components";
 import ReactPaginate from "react-paginate";
+import { useContext } from "react";
+import { BooksContext } from "../../hooks/context/browse/browse";
 
-export default function ContentList({ books, isLoading, isError, error, handlePageClick, initialPage, ...attributes }) {
+export default function ContentList({ ...attributes }) {
+    const {
+        data: books, 
+        isLoading, 
+        isError, 
+        error, 
+        initialPage, 
+        handlePageClick 
+    } = useContext(BooksContext)
+
     let content = <div className="text-center">No data found.</div>
 
     if (isLoading) {
@@ -50,14 +60,4 @@ export default function ContentList({ books, isLoading, isError, error, handlePa
             {content}
         </section>
     )
-}
-
-ContentList.propTypes = {
-    books: object,
-    isLoading: bool,
-    isError: bool,
-    error: object,
-    initialPage: number.isRequired,
-    handlePageClick: func.isRequired,
-    pageCount: number,
 }
