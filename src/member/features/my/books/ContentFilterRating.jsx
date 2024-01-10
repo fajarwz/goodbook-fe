@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { Rating } from "../../components";
-import { InputRadio } from "../../components/Form";
-import { BooksContext } from "../../hooks/context/browse/browse";
+import { Rating } from "../../../components";
+import { InputRadio } from "../../../components/Form";
+import { BooksContext } from "../../../hooks/context/my/books";
 
 export default function ContentFilterRating() {
     let { radioButtonsRefs } = useContext(BooksContext)

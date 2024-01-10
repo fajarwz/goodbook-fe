@@ -2,15 +2,15 @@ import { Footer, Navbar } from '../../components'
 
 import config from '../../utils/config'
 import { useTitle } from '../../../common/hooks'
-import { Header, Content } from '../../features/browse'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { fetchBooks } from '../../api/books'
+import { fetchMyBooks } from '../../api/my'
 import { useSearchParams } from 'react-router-dom'
-import { BooksContext } from '../../hooks/context/browse/browse'
+import { BooksContext } from '../../hooks/context/my/books'
+import { Content, Header } from '../../features/my/books'
 
-export default function Browse() {
-    useTitle('Browse | ' + config.app.name)
+export default function MyBooks() {
+    useTitle('My Books | ' + config.app.name)
 
     const [initialPage, setInitialPage] = useState(0);
     const [page, setPage] = useState(1);
@@ -49,8 +49,8 @@ export default function Browse() {
     const untilDefault = monthYear.toLocaleString('en-US', dateConfig)
 
     const search = searchParams.get('search') ?? ''
-    const publishedFrom = searchParams.get('published_from') ?? fromDefault
-    const publishedUntil = searchParams.get('published_until') ?? untilDefault
+    const updatedFrom = searchParams.get('updated_form') ?? fromDefault
+    const updatedUntil = searchParams.get('updated_until') ?? untilDefault
     const rating = searchParams.get('rating') ?? 0
 
     const handlePageClick = ({ selected }) => {
@@ -59,8 +59,8 @@ export default function Browse() {
     }
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['books', { search, page, publishedFrom, publishedUntil, rating }],
-        queryFn: ({ signal, queryKey }) => fetchBooks({ signal, ...queryKey[1] }),
+        queryKey: ['my', 'books', { search, page, updatedFrom, updatedUntil, rating }],
+        queryFn: ({ signal, queryKey }) => fetchMyBooks({ signal, ...queryKey[2] }),
         onSuccess: window.scrollTo(0, 0),
     })
 
@@ -76,8 +76,8 @@ export default function Browse() {
         const data = Object.fromEntries(formData);
 
         setSearchParams(prev => {
-            prev.set('published_from', data.published_from ? data.published_from : fromDefault)
-            prev.set('published_until', data.published_until ? data.published_until : untilDefault)
+            prev.set('updated_form', data.updated_form ? data.updated_form : fromDefault)
+            prev.set('updated_until', data.updated_until ? data.updated_until : untilDefault)
             prev.set('rating', data.rating)
             return prev
         }, { replace: true })
@@ -88,7 +88,7 @@ export default function Browse() {
     return (
         <div className='bg-customWhite-warm'>
             <Navbar isSearching={isSearching} searchRef={searchRef} />
-            <Header title='Discover Great Reads' subtitle='Dive into a sea of great titles' />
+            <Header title='My Books' subtitle='List of all reviews and ratings that I have given' />
             <BooksContext.Provider value={{
                 radioButtonsRefs,
                 startDate,

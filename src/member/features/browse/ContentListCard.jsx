@@ -14,7 +14,7 @@ export default function ContentListCard({ book }) {
             </Link>
             <div className="ml-8">
                 <Link to={`/browse/${book.slug}`}>
-                    <h2 className="mb-2">{book.title}</h2>
+                    <h2 className="mb-2 break-all sm:break-normal">{book.title}</h2>
                 </Link>
                 <div className="mb-2">{book.author?.name}</div>
                 <div className='flex mb-8'>
@@ -22,7 +22,7 @@ export default function ContentListCard({ book }) {
                         <Rating rating={book.avg_rating} addRatingClassName='w-[37px]' />
                     </span>
                     <span className="flex sm:hidden">
-                        <img src={star1} alt="Full star" />
+                        <img src={star1} alt="Full star" className="mr-1" />{book.avg_rating}
                     </span>
                 </div>
                 <div className="mb-[0.625rem]">{book.short_description}</div>

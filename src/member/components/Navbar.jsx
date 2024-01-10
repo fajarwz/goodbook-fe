@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import logo from '../assets/img/Goodbook.png'
 import searchIcon from '../assets/img/search.svg'
@@ -41,10 +41,15 @@ export default function Navbar({ isSearching, searchRef }) {
     }
 
     const generateNav = () => {
+        let browseParam = ''
         if (location.pathname === '/browse')
-            return <li><Link to='/browse?reset_filter=1'>Browse</Link></li>
+            browseParam = '?reset_filter=1'
 
-        return <li><Link to='/browse'>Browse</Link></li>
+        let navLink = [<li key={1}><NavLink to={`/browse${browseParam}`} className={({ isActive }) => (isActive ? 'active' : '')}>Browse</NavLink></li>]
+
+        if (isAuth()) navLink[1] = <li><NavLink to='/my/books' className={({ isActive }) => (isActive ? 'active' : '')}>My Books</NavLink></li>
+
+        return navLink
     }
 
     return (
@@ -55,12 +60,12 @@ export default function Navbar({ isSearching, searchRef }) {
                     <a href="#" onClick={toggleHamburgerBtnClick} id="hamburger-btn" className="font-bold lg:hidden">☰</a>
                 </div>
                 <div className={`flex-col lg:flex lg:flex-row items-center justify-between lg:w-full bg-white lg:bg-inherit p-4 lg:p-0 rounded-md ${showHamburgerNav ? 'flex' : 'hidden'}`}>
-                    <ul className='mb-8 lg:mb-0 lg:ml-14 font-bold w-full'>
+                    <ul className='flex flex-col lg:items-center md:flex-row gap-4 md:gap-14 mb-8 lg:mb-0 lg:ml-14 lg:mr-6 font-bold w-full'>
                         {generateNav()}
                     </ul>
                     <div className='flex flex-col lg:flex-row items-start lg:items-center w-full'>
                         <form onSubmit={handleSearch} className="relative flex mb-4 lg:mb-0 w-full lg:w-[350px] mr-12">
-                            <input type="text" name='search' defaultValue={search} ref={searchRef} placeholder='Search books' className="placeholder:text-gray-dark border border-orange-default rounded-md bg-transparent p-3 w-[350px] leading-3" />
+                            <input type="text" name='search' defaultValue={search} ref={searchRef} placeholder='Search all books' className="placeholder:text-gray-dark border border-orange-default rounded-md bg-transparent p-3 w-full lg:w-[350px] leading-3" />
                             <img src={searchIcon} alt="Search icon" className="absolute right-3 top-3 lg:mr-0" />
                         </form>
                         {isAuth() 

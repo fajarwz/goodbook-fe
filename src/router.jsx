@@ -1,11 +1,13 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { checkAuthLoader } from './admin/utils/token';
+import { checkAuthLoader as checkAuthLoaderMember } from './member/utils/token';
 import { ErrorBlock } from './common/components';
 import { Admin } from './admin/layouts';
 import { Books, Dashboard, Login, Members, Reviews } from './admin/pages';
 import { Home, SignIn } from './member/pages';
 import { Browse, BrowseDetail } from './member/pages/browse';
 import Join from './member/pages/Join';
+import { MyBooks } from './member/pages/my';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,11 @@ const router = createBrowserRouter([
   {
     path: '/browse/:slug',
     element: <BrowseDetail />,
+  },
+  {
+    path: '/my/books',
+    element: <MyBooks />,
+    loader: checkAuthLoaderMember,
   },
   {
     path: '*',

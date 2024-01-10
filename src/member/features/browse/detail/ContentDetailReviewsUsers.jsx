@@ -39,7 +39,7 @@ export default function ContentDetailReviewsUsers() {
                         </div>
                         <div className="col-span-9">
                             <Rating rating={data.rating} ratingLabel="" addClassName="mb-3" />
-                            <div className="mb-5">{data.review ?? 'No review given'}</div>
+                            <div className={`mb-5 ${!data.review ? 'italic' : ''}`}>{data.review ?? 'No review given'}</div>
                             <div className="mb-4 text-gray-dark">{data.updated_at}</div>
                             <hr className="border-gray-line" />
                         </div>

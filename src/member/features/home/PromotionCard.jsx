@@ -13,7 +13,7 @@ export default function PromotionCard({ book }) {
             </Link>
             <div className="ml-8">
                 <Link to={`/browse/${book.slug}`}>
-                    <h2 className="mb-2">{book.title}</h2>
+                    <h2 className="mb-2 break-all sm:break-normal">{book.title}</h2>
                 </Link>
                 <p className="mb-2">{book.author.name}</p>
                 <div className='flex'>
@@ -21,7 +21,7 @@ export default function PromotionCard({ book }) {
                         <Rating rating={book.avg_rating} addRatingClassName='w-[37px]' />
                     </span>
                     <span className="flex sm:hidden">
-                        <img src={star1} alt="Full star" />
+                        <img src={star1} alt="Full star" className='mr-1' /> {book.avg_rating}
                     </span>
                 </div>
             </div>
