@@ -41,14 +41,29 @@ api.interceptors.response.use(
       if (err.response.status === 401) {
         if (originalConfig.url !== '/admin/refresh-token') {
           try {
-            const rs = await api.post("/admin/refresh-token");
-            const data = rs.data;
+            const response = await api.post("/admin/refresh-token");
+
+            if (response.status >= 500) {
+              throw new Error(response.data.message);
+            }
+            else if (response.status === 403) {
+              throw new Error(response.data.data.message, { cause: 'REFRESH_TOKEN_EXPIRED' });
+            }
+            else if (response.status >= 400) {
+              throw new Error(response.data.data.message);
+            }
+
+            const data = response.data;
             const { access_token: accessToken, refresh_token: refreshToken, expires_at: expiresAt } = data.data.access_token;
         
             await storeAuthToken({ accessToken, refreshToken, expiresAt });
   
             return api(originalConfig);
           } catch (_error) {
+            if (_error.cause !== undefined && _error.cause === 'REFRESH_TOKEN_EXPIRED') {
+              deleteAuth()
+            }
+
             return _error;
           }
         }

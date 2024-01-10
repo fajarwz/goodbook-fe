@@ -46,11 +46,11 @@ function Books() {
       'Cover',
       'Title',
       'Short Description',
+      'Avg. Rating',
+      'Rater Count',
       'Author',
       'Pages',
       'Cover Type',
-      'Avg. Rating',
-      'Rater Count',
       'Published At',
       'Created At',
       'Updated At',
@@ -65,11 +65,11 @@ function Books() {
           <Td><img src={book.cover} alt={book.title} width={50} /></Td>
           <Td>{book.title}</Td>
           <Td addClassName='min-w-48'>{book.short_description}</Td>
+          <Td><i className="fas fa-star text-sm text-orange-default"></i> {book.avg_rating}</Td>
+          <Td>{book.rater_count}</Td>
           <Td>{book.author.name}</Td>
           <Td>{book.number_of_pages}</Td>
           <Td>{book.cover_type.name}</Td>
-          <Td>{book.avg_rating}</Td>
-          <Td>{book.rater_count}</Td>
           <Td>{book.published_at}</Td>
           <Td>{book.created_at}</Td>
           <Td>{book.updated_at}</Td>
