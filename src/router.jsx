@@ -4,9 +4,8 @@ import { checkAuthLoader as checkAuthLoaderMember } from './member/utils/token';
 import { ErrorBlock } from './common/components';
 import { Admin } from './admin/layouts';
 import { Books, Dashboard, Login, Members, Reviews } from './admin/pages';
-import { Home, SignIn } from './member/pages';
+import { Home, SignIn, Join } from './member/pages';
 import { Browse, BrowseDetail } from './member/pages/browse';
-import Join from './member/pages/Join';
 import { MyBooks } from './member/pages/my';
 
 const router = createBrowserRouter([
