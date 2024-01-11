@@ -43,9 +43,9 @@ export default function Navbar({ isSearching, searchRef }) {
     const generateNav = () => {
         const resetFilterParam = '?reset_filter=1'
 
-        let navLink = [<li key={1}><NavLink to={`/browse${resetFilterParam}`} className={({ isActive }) => (isActive ? 'active' : '')}>Browse</NavLink></li>]
+        let navLink = [<li key={0}><NavLink to={`/browse${resetFilterParam}`} className={({ isActive }) => (isActive ? 'active' : '')}>Browse</NavLink></li>]
 
-        if (isAuth()) navLink[1] = <li><NavLink to={`/my/books${resetFilterParam}`} className={({ isActive }) => (isActive ? 'active' : '')}>My Books</NavLink></li>
+        if (isAuth()) navLink[1] = <li key={1}><NavLink to={`/my/books${resetFilterParam}`} className={({ isActive }) => (isActive ? 'active' : '')}>My Books</NavLink></li>
 
         return navLink
     }

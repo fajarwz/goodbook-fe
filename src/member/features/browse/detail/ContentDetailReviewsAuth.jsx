@@ -28,7 +28,7 @@ export default function ContentDetailReviewsAuth() {
     };
 
     const handleMouseLeaveStar = (index) => {
-        setStarFill((prevStates) => prevStates.map((fill, i) => i === index && i > starChoosen ? false : fill));
+        setStarFill((prevStates) => prevStates.map((fill, i) => i <= index && i > starChoosen ? false : fill));
     };
 
     const handleStarClicked = (index) => {
@@ -37,6 +37,7 @@ export default function ContentDetailReviewsAuth() {
 
     const handleCancelReview = () => {
         setStarChoosen(-1);
+        setStarFill(Array(5).fill(false))
     };
 
     let notif = <></>

@@ -1,13 +1,19 @@
-import { Footer, Navbar } from '../../components'
+import { Footer, Modal, Navbar } from '../../components'
+
+import star1 from '../../assets/img/star-1.svg'
+import starNotSet from '../../assets/img/star-not-set.svg'
 
 import config from '../../utils/config'
 import { useTitle } from '../../../common/hooks'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { fetchMyBooks } from '../../api/my'
+import { fetchMyBooks, updateMyReview } from '../../api/my'
 import { useSearchParams } from 'react-router-dom'
 import { BooksContext } from '../../hooks/context/my/books'
 import { Content, Header } from '../../features/my/books'
+import queryClient from '../../../common/utils/queryClient'
+import { PrimaryButton, SecondaryButton } from '../../components/Button'
+import { ErrorBlock, SuccessBlock } from '../../../common/components'
 
 export default function MyBooks() {
     useTitle('My Books | ' + config.app.name)
@@ -82,9 +88,141 @@ export default function MyBooks() {
         isSearching()
     }
 
+
+    const [isEditing, setIsEditing] = useState(false)
+    const [reviewForm, setReviewForm] = useState({ id: null, review: '' })
+
+    const handleClickEdit = (review) => {
+        setIsEditing(true)
+        setReviewForm(review)
+    }
+
+    const handleCancelEdit = () => {
+        resetStarChoosen()
+        handleCloseModal()
+        resetStarFill()
+    }
+
+    const handleCloseModal = () => {
+        setIsEditing(false)
+    }
+
+    const [starFill, setStarFill] = useState(Array(5).fill(false))
+
+    const resetStarFill = () => setStarFill(Array(5).fill(false))
+
+    const handleMouseHoverStar = (index) => {
+        setStarFill((prevStates) => prevStates.map((fill, i) => i <= index ? true : fill));
+    };
+
+    const handleMouseLeaveStar = (index) => {
+        setStarFill((prevStates) => prevStates.map((fill, i) => i <= index && i > starChoosen ? false : fill));
+    };
+
+    const [starChoosen, setStarChoosen] = useState(-1)
+
+    const resetStarChoosen = () => {
+        setStarChoosen(-1);
+    };
+
+    const handleStarClicked = (index) => {
+        setStarChoosen(index);
+    };
+
+    const generateStar = () => {
+        return [...Array(5)].map((_, index) => (
+            <img
+                key={index}
+                src={starFill[index] ? star1 : starNotSet}
+                alt={`star-${index + 1}`}
+                onMouseEnter={() => handleMouseHoverStar(index)}
+                onMouseLeave={() => handleMouseLeaveStar(index)}
+                onClick={() => handleStarClicked(index)}
+                className='w-[1.625rem] h-[1.625rem]'
+            />
+        ))
+    }
+
+    const handleSubmitReview = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        let data = Object.fromEntries(formData);
+        data.rating = starChoosen + 1
+        const { id } = reviewForm
+
+        mutateSubmitReview({ id, formData: data })
+    }
+
+    const { 
+        mutate: mutateSubmitReview, 
+        isPending: isPendingSubmitReview, 
+        isError: isErrorSubmitReview, 
+        error: errorSubmitReview,
+        isSuccess: isSuccessSubmitReview,
+    } = useMutation({
+        mutationFn: updateMyReview,
+        onSuccess: () => {
+            // close submit review modal
+            resetStarChoosen()
+            handleCloseModal()
+            resetStarFill()
+
+            queryClient.invalidateQueries(['my', 'books', { search, page, updatedFrom, updatedUntil, rating }])
+        },
+    })
+
+    let modalNotif = <></>
+    if (isErrorSubmitReview) {
+        if (errorSubmitReview instanceof Error) {
+            modalNotif = <div className='w-full'>
+                <ErrorBlock title={errorSubmitReview.message} message='' />
+            </div>
+        }
+        else {
+            modalNotif = <div className='w-full'>
+                <ErrorBlock title='' message={
+                    <ul className='mb-0'>
+                        {Object.entries(errorSubmitReview).map(([key, message]) => (
+                            <li className='list-disc' key={key}>{message}</li>
+                        ))}
+                    </ul>
+                } />
+            </div>
+        }
+    }
+
+    let modalContent = <></>
+    if (isEditing) {
+        modalContent = <Modal onClose={handleCancelEdit}>
+            <h3 className="mb-4">What do you think?</h3>
+            <form onSubmit={handleSubmitReview} className='w-full'>
+                <div className='mb-8'>
+                    {modalNotif}
+                    <div className='flex items-center justify-center gap-0.5 mb-4'>
+                        {generateStar()}
+                    </div>
+                    <textarea name='review' rows={3} defaultValue={reviewForm.review} className='w-full border rounded-md border-gray-default p-3 bg-transparent'></textarea>
+                </div>
+                <div className='text-center flex flex-col md:flex-row justify-center'>
+                    <PrimaryButton type='submit' addClassName={`px-7 md:mr-2 mb-2 md:mb-0 ${isPendingSubmitReview ? 'disabled' : ''}`}>{isPendingSubmitReview ? 'Submitting...' : 'Submit Review'}</PrimaryButton>
+                    <SecondaryButton type='button' addClassName='w-full md:w-28' onClick={handleCancelEdit}>Cancel</SecondaryButton>
+                </div>
+            </form>
+        </Modal>
+    }
+
+    const [displaySuccessNotif, setDisplaySuccessNotif] = useState(true)
+    let successNotif = <></>
+    if (isSuccessSubmitReview && displaySuccessNotif) {
+        successNotif = <SuccessBlock title='Review updated successfully.' />
+        setTimeout(() => setDisplaySuccessNotif(false), 3000)
+    }
+
     return (
         <div className='bg-customWhite-warm'>
             <Navbar isSearching={isSearching} />
+            {successNotif}
             <Header title='My Books' subtitle='List of all reviews and ratings that I have given' />
             <BooksContext.Provider value={{
                 radioButtonsRefs,
@@ -99,9 +237,12 @@ export default function MyBooks() {
                 handlePageClick,
                 initialPage,
                 handleFilter,
+                handleClickEdit,
+                handleSubmitReview,
             }} >
                 <Content />
             </BooksContext.Provider>
+            {modalContent}
             <Footer />
         </div>
     )
