@@ -35,3 +35,19 @@ export async function updateMyReview({ id, formData }) {
 
   return response.data.data.review;
 }
+
+export async function deleteMyReview({ id }) {
+  const response = await api.delete(`/member/reviews/${id}`);
+
+  if (response.status >= 500) {
+    throw new Error(response.data.message);
+  }
+  else if (response.status === 422 || response.status === 401) {
+    throw response.data.data;
+  }
+  else if (response.status >= 400) {
+    throw new Error(response.data.data.message);
+  }
+
+  return response.data.data.review;
+}

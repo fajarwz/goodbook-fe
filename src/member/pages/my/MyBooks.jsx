@@ -7,16 +7,23 @@ import config from '../../utils/config'
 import { useTitle } from '../../../common/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { fetchMyBooks, updateMyReview } from '../../api/my'
+import { deleteMyReview, fetchMyBooks, updateMyReview } from '../../api/my'
 import { useSearchParams } from 'react-router-dom'
 import { BooksContext } from '../../hooks/context/my/books'
 import { Content, Header } from '../../features/my/books'
 import queryClient from '../../../common/utils/queryClient'
 import { PrimaryButton, SecondaryButton } from '../../components/Button'
-import { ErrorBlock, SuccessBlock } from '../../../common/components'
+import { ErrorBlock } from '../../../common/components'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function MyBooks() {
     useTitle('My Books | ' + config.app.name)
+
+    const toastOptions = { duration: 5000 }
+
+    // ========
+    // FETCHING
+    // ========
 
     const [initialPage, setInitialPage] = useState(0);
     const [page, setPage] = useState(1);
@@ -88,6 +95,11 @@ export default function MyBooks() {
         isSearching()
     }
 
+    // ========
+    // EDITING
+    // ========
+
+    let modalNotif = <></>
 
     const [isEditing, setIsEditing] = useState(false)
     const [reviewForm, setReviewForm] = useState({ id: null, review: '' })
@@ -154,12 +166,11 @@ export default function MyBooks() {
         mutateSubmitReview({ id, formData: data })
     }
 
-    const { 
-        mutate: mutateSubmitReview, 
-        isPending: isPendingSubmitReview, 
-        isError: isErrorSubmitReview, 
+    const {
+        mutate: mutateSubmitReview,
+        isPending: isPendingSubmitReview,
+        isError: isErrorSubmitReview,
         error: errorSubmitReview,
-        isSuccess: isSuccessSubmitReview,
     } = useMutation({
         mutationFn: updateMyReview,
         onSuccess: () => {
@@ -169,31 +180,31 @@ export default function MyBooks() {
             resetStarFill()
 
             queryClient.invalidateQueries(['my', 'books', { search, page, updatedFrom, updatedUntil, rating }])
+            toast.success('Review updated successfully.', toastOptions);
         },
     })
 
-    let modalNotif = <></>
-    if (isErrorSubmitReview) {
-        if (errorSubmitReview instanceof Error) {
-            modalNotif = <div className='w-full'>
-                <ErrorBlock title={errorSubmitReview.message} message='' />
-            </div>
-        }
-        else {
-            modalNotif = <div className='w-full'>
-                <ErrorBlock title='' message={
-                    <ul className='mb-0'>
-                        {Object.entries(errorSubmitReview).map(([key, message]) => (
-                            <li className='list-disc' key={key}>{message}</li>
-                        ))}
-                    </ul>
-                } />
-            </div>
-        }
-    }
-
     let modalContent = <></>
     if (isEditing) {
+        if (isErrorSubmitReview) {
+            if (errorSubmitReview instanceof Error) {
+                modalNotif = <div className='w-full'>
+                    <ErrorBlock title={errorSubmitReview.message} message='' />
+                </div>
+            }
+            else {
+                modalNotif = <div className='w-full'>
+                    <ErrorBlock title='' message={
+                        <ul className='mb-0'>
+                            {Object.entries(errorSubmitReview).map(([key, message]) => (
+                                <li className='list-disc' key={key}>{message}</li>
+                            ))}
+                        </ul>
+                    } />
+                </div>
+            }
+        }
+
         modalContent = <Modal onClose={handleCancelEdit}>
             <h3 className="mb-4">What do you think?</h3>
             <form onSubmit={handleSubmitReview} className='w-full'>
@@ -212,17 +223,92 @@ export default function MyBooks() {
         </Modal>
     }
 
-    const [displaySuccessNotif, setDisplaySuccessNotif] = useState(true)
-    let successNotif = <></>
-    if (isSuccessSubmitReview && displaySuccessNotif) {
-        successNotif = <SuccessBlock title='Review updated successfully.' />
-        setTimeout(() => setDisplaySuccessNotif(false), 3000)
+    // ========
+    // DELETING
+    // ========
+
+    const handleDeleteReview = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        let { id } = Object.fromEntries(formData);
+
+        mutateDeleteReview({ id })
+    }
+
+    const {
+        mutate: mutateDeleteReview,
+        isPending: isPendingDeleteReview,
+        isError: isErrorDeleteReview,
+        error: errorDeleteReview,
+    } = useMutation({
+        mutationFn: deleteMyReview,
+        onSuccess: () => {
+            // close submit review modal
+            handleCloseDeleteModal()
+
+            queryClient.invalidateQueries(['my', 'books', { search, page, updatedFrom, updatedUntil, rating }])
+            toast.success('Review deleted successfully.', toastOptions);
+        },
+    })
+
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [deleteForm, setDeleteForm] = useState({ id: null })
+
+    const handleClickDelete = (deleteForm) => {
+        setIsDeleting(true)
+        setDeleteForm(deleteForm)
+    }
+
+    const handleCancelDelete = () => {
+        handleCloseDeleteModal()
+    }
+
+    const handleCloseDeleteModal = () => {
+        setIsDeleting(false)
+    }
+
+    if (isDeleting) {
+        modalNotif = <></>
+        if (isErrorDeleteReview) {
+            if (errorDeleteReview instanceof Error) {
+                modalNotif = <div className='w-full'>
+                    <ErrorBlock title={errorDeleteReview.message} message='' />
+                </div>
+            }
+            else {
+                modalNotif = <div className='w-full'>
+                    <ErrorBlock title='' message={
+                        <ul className='mb-0'>
+                            {Object.entries(errorDeleteReview).map(([key, message]) => (
+                                <li className='list-disc' key={key}>{message}</li>
+                            ))}
+                        </ul>
+                    } />
+                </div>
+            }
+        }
+
+        modalContent = <Modal onClose={handleCancelDelete}>
+            <h3 className="mb-4">Are you sure?</h3>
+            <form onSubmit={handleDeleteReview} className='w-full'>
+                <div className='mb-8'>
+                    {modalNotif}
+                    <div className='text-center'>You want to delete your &ldquo;{deleteForm.name}&rdquo; review?</div>
+                    <input type="hidden" name='id' defaultValue={deleteForm.id} />
+                </div>
+                <div className='text-center flex flex-col md:flex-row justify-center'>
+                    <PrimaryButton type='submit' addClassName={`px-7 md:mr-2 mb-2 md:mb-0 ${isPendingDeleteReview ? 'disabled' : ''}`}>{isPendingDeleteReview ? 'Deleting...' : 'Delete Review'}</PrimaryButton>
+                    <SecondaryButton type='button' addClassName='w-full md:w-28' onClick={handleCancelDelete}>Cancel</SecondaryButton>
+                </div>
+            </form>
+        </Modal>
     }
 
     return (
         <div className='bg-customWhite-warm'>
             <Navbar isSearching={isSearching} />
-            {successNotif}
+            <Toaster />
             <Header title='My Books' subtitle='List of all reviews and ratings that I have given' />
             <BooksContext.Provider value={{
                 radioButtonsRefs,
@@ -239,6 +325,7 @@ export default function MyBooks() {
                 handleFilter,
                 handleClickEdit,
                 handleSubmitReview,
+                handleClickDelete,
             }} >
                 <Content />
             </BooksContext.Provider>

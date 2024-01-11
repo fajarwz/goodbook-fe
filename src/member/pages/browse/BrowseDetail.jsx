@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom'
 import { BookContext, BookReviewsContext } from '../../hooks/context/browse/browse-detail'
 import { useState } from 'react'
 import { submitReview } from '../../api/reviews'
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function BrowseDetail() {
     const { slug } = useParams()
@@ -59,6 +60,9 @@ export default function BrowseDetail() {
 
     const { mutate, isPending, isError, error } = useMutation({
         mutationFn: submitReview,
+        onSuccess: () => {
+            toast.success('Review updated successfully.', { duration: 5000 })
+        },
         onSettled: () => {
             // close submit review modal
             setStarChoosen(-1)
@@ -70,6 +74,7 @@ export default function BrowseDetail() {
     return (
         <div className='bg-customWhite-warm'>
             <Navbar />
+            <Toaster />
             <BookContext.Provider value={{
                 dataBook,
                 isLoadingBook,
