@@ -26,7 +26,7 @@ export default function ContentListCard({ book }) {
                     </span>
                 </div>
                 <div className="mb-[0.625rem]">{book.short_description}</div>
-                <div className="mb-4 text-gray-dark">{book.published_at}</div>
+                <div className="mb-4 text-gray-dark text-sm">{`Published ${book.published_at}`}</div>
                 <hr className="border-gray-line" />
             </div>
         </div>
