@@ -1,8 +1,8 @@
-import { useContext } from "react"
-import { BookContext } from "../../../hooks/context/browse/browse-detail"
+import { useBookBySlug } from "../../../hooks/useBook"
+import { useParams } from "react-router-dom"
 
 export default function ContentDetailAuthor() {
-    const { dataBook: data } = useContext(BookContext)
+    const { data } = useBookBySlug(useParams().slug)
 
     return (
         <section className="mb-10">

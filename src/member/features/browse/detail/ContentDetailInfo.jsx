@@ -1,9 +1,9 @@
-import { useContext } from "react"
 import { Rating } from "../../../components"
-import { BookContext } from "../../../hooks/context/browse/browse-detail"
+import { useBookBySlug } from "../../../hooks/useBook"
+import { useParams } from "react-router-dom"
 
 export default function ContentDetailInfo() {
-    const { dataBook: data } = useContext(BookContext)
+    const { data } = useBookBySlug(useParams().slug)
 
     return (
         <section className="mb-10">

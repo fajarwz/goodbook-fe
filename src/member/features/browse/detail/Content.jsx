@@ -1,11 +1,11 @@
 import { ErrorBlock, LoadingIndicator } from "../../../../common/components"
 import ContentCover from "./ContentCover"
 import ContentDetail from "./ContentDetail"
-import { useContext } from "react"
-import { BookContext } from "../../../hooks/context/browse/browse-detail"
+import { useBookBySlug } from "../../../hooks/useBook"
+import { useParams } from "react-router-dom"
 
 export default function Content() {
-    const { dataBook: data, isLoadingBook: isLoading, isErrorBook: isError, errorBook: error } = useContext(BookContext)
+    const { data, isLoading, isError, error } = useBookBySlug(useParams().slug)
 
     let content = <div className="text-center">No data found.</div>
 

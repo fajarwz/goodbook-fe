@@ -1,18 +1,24 @@
 import { Rating } from "../../../components"
 import { ErrorBlock, LoadingIndicator } from "../../../../common/components"
-import { useContext } from "react"
-import { BookReviewsContext } from "../../../hooks/context/browse/browse-detail"
+import { useState } from "react"
 import ReactPaginate from "react-paginate"
+import { useReviewsByBookId } from "../../../hooks/useBookReview"
+import { useBookBySlug } from "../../../hooks/useBook"
+import { useParams } from "react-router-dom"
 
 export default function ContentDetailReviewsUsers() {
-    const {
-        dataReviews: data,
-        isLoadingReviews: isLoading,
-        isErrorReviews: isError,
-        errorReviews: error,
-        handleReviewsPageClick,
-        reviewsInitialPage,
-    } = useContext(BookReviewsContext)
+    const [reviewsInitialPage, setReviewsInitialPage] = useState(0);
+    const [reviewsPage, setReviewsPage] = useState(1);
+
+    const { data: dataBook } = useBookBySlug(useParams().slug)
+    const bookId = dataBook?.id
+
+    const { data, isLoading, isError, error } = useReviewsByBookId({ bookId, reviewsPage })
+
+    const handleReviewsPageClick = ({ selected }) => {
+        setReviewsInitialPage(selected)
+        setReviewsPage(selected + 1)
+    }
 
     let content = <div className="text-center">No data found.</div>
 
