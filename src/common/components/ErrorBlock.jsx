@@ -30,6 +30,6 @@ ErrorBlock.propTypes = {
   title: PropTypes.string,
   message: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.element,
+    PropTypes.object,
   ]),
 }

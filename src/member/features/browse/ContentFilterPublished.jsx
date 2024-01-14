@@ -1,11 +1,8 @@
-import { useContext } from 'react';
+import { func, instanceOf } from 'prop-types'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { BooksContext } from '../../hooks/context/browse/browse';
 
-export default function ContentFilterPublished() {
-    const { startDate, endDate, setStartDate, setEndDate } = useContext(BooksContext)
-
+export default function ContentFilterPublished({ startDate, setStartDate, endDate, setEndDate }) {
     return (
         <div className="flex flex-wrap gap-2 mb-4">
             <DatePicker
@@ -35,4 +32,11 @@ export default function ContentFilterPublished() {
             />
         </div>
     )
+}
+
+ContentFilterPublished.propTypes = {
+    startDate: instanceOf(Date),
+    setStartDate: func,
+    endDate: instanceOf(Date),
+    setEndDate: func,
 }

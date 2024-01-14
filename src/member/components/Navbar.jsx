@@ -5,21 +5,30 @@ import searchIcon from '../assets/img/search.svg'
 
 import Logo from './Logo'
 import { JoinBtn, SignInBtn } from './Button'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { isAuth } from '../utils/token'
 import UserDropdown from './UserDropdown'
 import { func, object } from 'prop-types'
 
-export default function Navbar({ isSearching, searchRef }) {
+export default function Navbar() {
     const [showHamburgerNav, setShowHamburgerNav] = useState(false)
     const navigate = useNavigate()
+
+    const [searchParams, setSearchParams] = useSearchParams()
+    const search = searchParams.get('search') ?? ''
+
+    const searchRef = useRef()
+    useEffect(() => {
+        if (searchParams.get('reset_filter')) {
+            searchRef.current.value = ''
+
+            setSearchParams(new URLSearchParams({}), { replace: true });
+        }
+    }, [searchParams, setSearchParams])
 
     const toggleHamburgerBtnClick = () => {
         setShowHamburgerNav(!showHamburgerNav)
     }
-
-    const [searchParams, setSearchParams] = useSearchParams()
-    const search = searchParams.get('search') ?? ''
     
     const location = useLocation();
 
@@ -36,8 +45,6 @@ export default function Navbar({ isSearching, searchRef }) {
 
         if (location.pathname !== '/browse')
             navigate(`/browse?search=${data.search}`)
-
-        isSearching()
     }
 
     const generateNav = () => {
