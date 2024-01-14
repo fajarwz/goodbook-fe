@@ -8,7 +8,19 @@ export default function ErrorBlock({ title = 'An error occured.', message }) {
       <img src={alertDanger} alt="Danger alert icon" />
       <div>
         <h2 className='text-inherit text-xl m-0'>{title}</h2>
-        <div className='m-0'>{message}</div>
+        <div className='m-0'>
+          {typeof message === 'string' ? (
+            { message }
+          ) : (
+            <ul>
+              {
+                Object.entries(message).map(([key, message]) => (
+                  <li className='list-disc' key={key}>{message}</li>
+                ))
+              }
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
