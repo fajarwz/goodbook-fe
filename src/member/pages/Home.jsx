@@ -8,7 +8,7 @@ import { fetchGenres } from '../api/genres'
 import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
-    useTitle('Home | ' + config.app.name)
+    useTitle('Share Your Thoughts and Discover Great Reads | ' + config.app.name)
     const navigate = useNavigate()
 
     const { data: dataBest, isLoading: isLoadingBest, isError: isErrorBest, error: errorBest } = useQuery({
