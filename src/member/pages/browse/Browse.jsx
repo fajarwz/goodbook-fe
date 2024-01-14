@@ -9,7 +9,7 @@ export default function Browse() {
     return (
         <div className='bg-customWhite-warm'>
             <Navbar />
-            <Header title='Discover Great Reads' subtitle='Dive into a sea of great titles' />
+            <Header />
             <Content />
             <Footer />
         </div>

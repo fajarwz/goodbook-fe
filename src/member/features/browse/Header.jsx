@@ -1,17 +1,10 @@
-import { string } from "prop-types"
-
-export default function Header({ title, subtitle }) {
+export default function Header() {
     return (
         <header className="mb-9">
             <div className="container">
-                <h1 className="mb-2">{title}</h1>
-                <p>{subtitle}</p>
+                <h1 className="mb-2">Discover Great Reads</h1>
+                <p>Dive into a sea of great titles</p>
             </div>
         </header>
     )
-}
-
-Header.propTypes = {
-    title: string,
-    subtitle: string,
 }
