@@ -8,7 +8,6 @@ import { JoinBtn, SignInBtn } from './Button'
 import { useEffect, useRef, useState } from 'react'
 import { isAuth } from '../utils/token'
 import UserDropdown from './UserDropdown'
-import { func, object } from 'prop-types'
 
 export default function Navbar() {
     const [showHamburgerNav, setShowHamburgerNav] = useState(false)
@@ -87,9 +86,4 @@ export default function Navbar() {
             </div>
         </nav>
     )
-}
-
-Navbar.propTypes = {
-    isSearching: func,
-    searchRef: object,
 }

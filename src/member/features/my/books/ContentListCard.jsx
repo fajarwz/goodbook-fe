@@ -2,14 +2,10 @@ import { Link } from "react-router-dom";
 
 import { Rating } from "../../../components";
 
-import { object } from "prop-types";
+import { func, object } from "prop-types";
 import { Cover } from "../../../components/Image";
-import { useContext } from "react";
-import { BooksContext } from "../../../hooks/context/my/books";
 
-export default function ContentListCard({ review }) {
-    const { handleClickEdit, handleClickDelete } = useContext(BooksContext)
-
+export default function ContentListCard({ review, handleClickEdit, handleClickDelete }) {
     return (
         <>
             <div className='flex mb-8'>
@@ -40,4 +36,6 @@ export default function ContentListCard({ review }) {
 
 ContentListCard.propTypes = {
     review: object,
+    handleClickEdit: func,
+    handleClickDelete: func,
 }

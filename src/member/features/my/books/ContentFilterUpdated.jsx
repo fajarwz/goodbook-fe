@@ -1,10 +1,20 @@
-import { useContext } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { BooksContext } from '../../../hooks/context/my/books';
+import { useSearchParams } from 'react-router-dom';
 
 export default function ContentFilterUpdated() {
-    const { startDate, endDate, setStartDate, setEndDate } = useContext(BooksContext)
+    const [startDate, setStartDate] = useState()
+    const [endDate, setEndDate] = useState()
+
+    const [searchParams] = useSearchParams()
+
+    useEffect(() => {
+        if (searchParams.get('reset_filter')) {
+            setStartDate()
+            setEndDate()
+        }
+    }, [searchParams])
 
     return (
         <div className="flex flex-wrap gap-2 mb-4">

@@ -1,19 +1,19 @@
 import ContentListCard from "./ContentListCard";
 import { ErrorBlock, LoadingIndicator } from "../../../../common/components";
 import ReactPaginate from "react-paginate";
-import { useContext } from "react";
-import { BooksContext } from "../../../hooks/context/my/books";
+import { bool, func, number, object } from "prop-types";
 
-export default function ContentList({ ...attributes }) {
-    const {
-        data: reviews, 
-        isLoading, 
-        isError, 
-        error, 
-        initialPage, 
-        handlePageClick 
-    } = useContext(BooksContext)
-
+export default function ContentList({ 
+    data: reviews, 
+    isLoading, 
+    isError, 
+    error, 
+    initialPage, 
+    handlePageClick,
+    handleClickEdit,
+    handleClickDelete,
+    ...attributes 
+}) {
     let content = <div className="text-center">No data found.</div>
 
     if (isLoading) {
@@ -31,7 +31,12 @@ export default function ContentList({ ...attributes }) {
         content = 
         <>
             {reviews.data.map(review => {
-                return <ContentListCard key={review.id} review={review} />
+                return <ContentListCard 
+                    key={review.id} 
+                    review={review} 
+                    handleClickEdit={handleClickEdit}
+                    handleClickDelete={handleClickDelete}
+                />
             })}
             <ReactPaginate
                 initialPage={initialPage}
@@ -60,4 +65,15 @@ export default function ContentList({ ...attributes }) {
             {content}
         </section>
     )
+}
+
+ContentList.propTypes = {
+    data: object,
+    isLoading: bool,
+    isError: bool,
+    error: object,
+    initialPage: number,
+    handlePageClick: func,
+    handleClickEdit: func,
+    handleClickDelete: func,
 }

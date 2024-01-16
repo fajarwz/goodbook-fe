@@ -1,22 +1,16 @@
-import ReactModal from 'react-modal';
-import { Rating } from '../../../components'
+import { Modal, Rating } from '../../../components'
 import { PrimaryButton, SecondaryButton } from '../../../components/Button'
 import { ErrorBlock } from '../../../../common/components'
 import { useBookBySlug } from '../../../hooks/useBook'
 import { useParams } from 'react-router-dom'
 import { useSubmitReview } from '../../../hooks/useReview'
 import { func, number } from 'prop-types'
-import { useEffect } from 'react'
 
 export default function ContentDetailReviewsForm({ setStarFill, starChoosen, setStarChoosen }) {
     const { data: dataBook } = useBookBySlug(useParams().slug)
     const bookId = dataBook.id
 
     const emptyStarFill = Array(5).fill(false)
-
-    useEffect(() => {
-        ReactModal.setAppElement('body');
-    }, [])
 
     const handleCloseReview = () => {
         setStarChoosen(-1);
@@ -66,10 +60,7 @@ export default function ContentDetailReviewsForm({ setStarFill, starChoosen, set
     return (
         <>
             {notif}
-            <ReactModal 
-                isOpen={starChoosen > -1} 
-                className="bg-white p-8 flex flex-col items-center justify-center rounded-xl fixed md:left-[calc(50%_-_20rem)] w-full md:w-[40rem] max-h-[80vh] z-10 shadow-lg mx-auto md:m-0 border-none top-[10vh]" 
-            >
+            <Modal isOpen={starChoosen > -1} >
                 <h3 className="mb-4">What do you think?</h3>
                 <form onSubmit={handleSubmitReview} className='w-full'>
                     <div className='mb-8'>
@@ -86,7 +77,7 @@ export default function ContentDetailReviewsForm({ setStarFill, starChoosen, set
                         <SecondaryButton type='button' addClassName='w-full md:w-28' onClick={handleCancelReview}>Cancel</SecondaryButton>
                     </div>
                 </form>
-            </ReactModal>
+            </Modal>
         </>
     )
 }
