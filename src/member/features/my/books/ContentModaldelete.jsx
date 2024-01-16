@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDeleteMyReview } from "../../../hooks/useMy";
 import { Modal } from "../../../components";
 import { ErrorBlock } from "../../../../common/components";
@@ -23,36 +23,37 @@ export default function ContentModaldelete({ isDeleting, deleteForm, handleClose
         isSuccess,
     } = useDeleteMyReview()
 
+    const [errorNotif, setErrorNotif] = useState()
     useEffect(() => {
         if (isSuccess) {
             handleCloseDeleteModal()
         }
-    }, [isSuccess, handleCloseDeleteModal])
+        if (isError) {
+            if (error instanceof Error) {
+                setErrorNotif({
+                    title: error.message,
+                    message: '',
+                })
+            }
+            else {
+                setErrorNotif({
+                    title: '',
+                    message: error,
+                })
+            }
+        }
+    }, [isError, error, isSuccess, handleCloseDeleteModal])
 
 
     const handleCancelDelete = () => {
         handleCloseDeleteModal()
     }
 
-    let modalNotif = <></>
-    if (isError) {
-        if (error instanceof Error) {
-            modalNotif = <div className='w-full'>
-                <ErrorBlock title={error.message} message='' />
-            </div>
-        }
-        else {
-            modalNotif = <div className='w-full'>
-                <ErrorBlock title='' message={error} />
-            </div>
-        }
-    }
-
     return <Modal isOpen={isDeleting}>
         <h3 className="mb-4">Are you sure?</h3>
         <form onSubmit={handleDeleteReview} className='w-full'>
             <div className='mb-8'>
-                {modalNotif}
+                {errorNotif && <ErrorBlock title={errorNotif.title} message={errorNotif.message} />}
                 <div className='text-center'>You want to delete your &ldquo;{deleteForm.name}&rdquo; review?</div>
                 <input type="hidden" name='id' defaultValue={deleteForm.id} />
             </div>

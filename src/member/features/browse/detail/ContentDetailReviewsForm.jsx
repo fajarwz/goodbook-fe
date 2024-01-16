@@ -5,6 +5,7 @@ import { useBookBySlug } from '../../../hooks/useBook'
 import { useParams } from 'react-router-dom'
 import { useSubmitReview } from '../../../hooks/useReview'
 import { func, number } from 'prop-types'
+import { useEffect, useState } from 'react'
 
 export default function ContentDetailReviewsForm({ setStarFill, starChoosen, setStarChoosen }) {
     const { data: dataBook } = useBookBySlug(useParams().slug)
@@ -33,33 +34,36 @@ export default function ContentDetailReviewsForm({ setStarFill, starChoosen, set
 
     const {
         mutate,
-        isPending: isPendingSubmitReview,
-        isError: isErrorSubmitReview,
-        error: errorSubmitReview,
-        isSuccess: isSuccessSubmitReview
+        isPending,
+        isError,
+        error,
+        isSuccess
     } = useSubmitReview(bookId)
 
-    if (isSuccessSubmitReview) {
-        handleCloseReview()
-    }
-
-    let notif = <></>
-    if (isErrorSubmitReview) {
-        if (errorSubmitReview instanceof Error) {
-            notif = <div className='w-full'>
-                <ErrorBlock title={errorSubmitReview.message} message='' />
-            </div>
+    const [errorNotif, setErrorNotif] = useState()
+    useEffect(() => {
+        if (isSuccess) {
+            handleCloseReview()
         }
-        else {
-            notif = <div className='w-full'>
-                <ErrorBlock title='' message={errorSubmitReview} />
-            </div>
+        if (isError) {
+            if (error instanceof Error) {
+                setErrorNotif({
+                    title: error.message,
+                    message: '',
+                })
+            }
+            else {
+                setErrorNotif({
+                    title: '',
+                    message: error,
+                })
+            }
         }
-    }
+    }, [isError, error, isSuccess, handleCloseReview])
 
     return (
         <>
-            {notif}
+            {errorNotif && <ErrorBlock title={errorNotif.title} message={errorNotif.message} />}
             <Modal isOpen={starChoosen > -1} >
                 <h3 className="mb-4">What do you think?</h3>
                 <form onSubmit={handleSubmitReview} className='w-full'>
@@ -71,8 +75,8 @@ export default function ContentDetailReviewsForm({ setStarFill, starChoosen, set
                         <textarea name='review' rows={3} className='w-full border rounded-md border-gray-default p-3 bg-transparent'></textarea>
                     </div>
                     <div className='text-center flex flex-col md:flex-row justify-center'>
-                        <PrimaryButton type='submit' addClassName={`px-7 md:mr-2 mb-2 md:mb-0 ${isPendingSubmitReview ? 'disabled' : ''}`}>
-                            {isPendingSubmitReview ? 'Submitting...' : 'Submit Review'}
+                        <PrimaryButton type='submit' addClassName={`px-7 md:mr-2 mb-2 md:mb-0 ${isPending ? 'disabled' : ''}`}>
+                            {isPending ? 'Submitting...' : 'Submit Review'}
                         </PrimaryButton>
                         <SecondaryButton type='button' addClassName='w-full md:w-28' onClick={handleCancelReview}>Cancel</SecondaryButton>
                     </div>
