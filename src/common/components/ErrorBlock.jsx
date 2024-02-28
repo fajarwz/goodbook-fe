@@ -10,7 +10,7 @@ export default function ErrorBlock({ title = 'An error occured.', message }) {
         <h2 className='text-inherit text-xl m-0'>{title}</h2>
         <div className='m-0'>
           {typeof message === 'string' ? (
-            { message }
+            message
           ) : (
             <ul>
               {

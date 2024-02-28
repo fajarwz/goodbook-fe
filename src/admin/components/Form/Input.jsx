@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
+import { forwardRef, useRef } from 'react';
 
-export default function Input({ addClassName, ...attributes }) {
+const Input = forwardRef(({ addClassName, ...attributes }, ref) => {
+    const inputRef = useRef(null);
     return (
-        <input className={`h-11 min-w-80 border rounded-md border-gray-default p-3 ${addClassName}`} {...attributes} />
+        <input ref={ref ?? inputRef} className={`h-11 min-w-80 border rounded-md border-gray-default p-3 ${addClassName}`} {...attributes} />
     )
-}
+})
+
+export default Input
+Input.displayName = 'Input';
 
 Input.propTypes = {
     addClassName: PropTypes.string,

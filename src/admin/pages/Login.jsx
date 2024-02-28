@@ -3,17 +3,19 @@ import { useNavigate } from 'react-router-dom';
 
 import { LoginForm, Header } from '../features/login';
 import { login } from '../api/auth';
+import { useState } from 'react';
 
 function Login() {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-
-    mutate({ formData: data })
+    mutate({ formData })
   }
 
   const { mutate, isPending, isError, error } = useMutation({
@@ -32,6 +34,8 @@ function Login() {
           isError={isError}
           error={error}
           isPending={isPending}
+          formData={formData}
+          setFormData={setFormData}
         />
       </div>
     </>
