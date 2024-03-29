@@ -28,7 +28,7 @@ export async function signOut() {
   await deleteAuth()
 }
 
-export async function join({ formData }) {
+export async function join(formData) {
   const response = await api.post('/member/register', JSON.stringify(formData));
 
   if (response.status >= 500) {
