@@ -54,17 +54,20 @@ export default function ContentForm() {
                 <div className='mb-4'>
                     <label htmlFor='email' className='block mb-3'>Email</label>
                     <Input id='email' type='email' addClassName={errors?.email && 'border-red-500'} {...register('email', {
-                        required: true,
-                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                        required: 'Email is required',
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: 'Email must be valid',
+                        }
                     })} />
-                    {errors?.email?.type === 'pattern' && <div className='text-red-500'><small>Email must be valid</small></div>}
+                    {errors?.email && <div className='text-red-500'><small>{errors?.email?.message}</small></div>}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='password' className='block mb-3'>Password</label>
                     <Input id='password' name='password' type='password' addClassName={errors?.password && 'border-red-500'} {...register('password', {
-                        required: true,
+                        required: 'Password is required',
                     })} />
-                    {errors?.password?.type === 'required' && <div className='text-red-500'><small>Password is required</small></div>}
+                    {errors?.password && <div className='text-red-500'><small>{errors?.password?.message}</small></div>}
                 </div>
                 <div>
                     <PrimaryButton type='submit' addClassName={`w-full ${isPending ? 'disabled' : ''}`}>{isPending ? 'Please wait...' : 'Sign In'}</PrimaryButton>

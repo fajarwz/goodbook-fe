@@ -1,103 +1,77 @@
 import PropTypes from 'prop-types';
 
 import { Input } from "../../components/Form"
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorBlock } from '../../../common/components';
+import { login } from '../../api/auth';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 
-export default function LoginForm({ handleSubmit, isError, error, isPending, formData, setFormData }) {
-    const [errorNotif, setErrorNotif] = useState()
-    const [isDisableSubmit, setIsDisableSubmit] = useState(false)
-    const emailInput = useRef(null)
-    const [invalidInput, setInvalidInput] = useState({})
+export default function LoginForm() {
+    const navigate = useNavigate();
+
+    const {
+        register,
+        handleSubmit,
+        setFocus,
+        formState: { errors }
+    } = useForm({ mode: 'onChange' });
 
     useEffect(() => {
-        const checkSubmitFormValidation = () => {
-            if (isError) {
-                if (error instanceof Error) {
-                    setErrorNotif({
-                        title: error.message,
-                        message: '',
-                    })
-                }
-                else {
-                    setErrorNotif({
-                        title: '',
-                        message: error,
-                    })
-                }
-            }
-        }
+        setFocus('email')
+    }, [setFocus])
 
-        const validateEmail = (email) => {
-            return email.match(
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            );
-        };
+    const onSubmit = (data) => {
+        mutate(data)
+    }
 
-        let isValid = false
-        const checkInput = () => {
-            if (formData.email) {
-                isValid = validateEmail(formData.email);
-            }
-
-            if (!isValid) {
-                setInvalidInput({
-                    ...invalidInput,
-                    email: 'Email must be valid.',
+    const [errorNotif, setErrorNotif] = useState()
+    const { mutate, isPending } = useMutation({
+        mutationFn: login,
+        onSuccess: () => {
+            navigate('/admin/dashboard');
+        },
+        onError: (error) => {
+            if (error instanceof Error) {
+                setErrorNotif({
+                    title: error.message,
+                    message: '',
                 })
             }
             else {
-                setInvalidInput({
-                    ...invalidInput,
-                    email: '',
+                setErrorNotif({
+                    title: '',
+                    message: error,
                 })
             }
         }
-
-        const checkSubmit = () => {
-            setIsDisableSubmit(isPending || !formData.email || !formData.password || !isValid)
-        }
-
-        checkSubmitFormValidation()
-        checkInput()
-        checkSubmit()
-    }, [error, formData.email, formData.password, invalidInput, isError, isPending])
-
-    useEffect(() => {
-        const emailFocus = () => {
-            emailInput.current.focus()
-        }
-
-        emailFocus()
-    }, [])
-
-    const handleFormChange = (e) => {
-        const { name, value } = e.target
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-    }
+    })
 
     return (
         <div className='max-w-80'>
             {errorNotif && <ErrorBlock title={errorNotif.title} message={errorNotif.message} />}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='mb-4'>
-                    <div className='mb-3'>Email</div>
-                    <div>
-                        <Input type="email" name="email" addClassName={`w-full ${invalidInput.email ? 'border-red-500' : ''}`} ref={emailInput} value={formData.email} onChange={(e) => handleFormChange(e)} />
-                        {invalidInput.email && <div className='text-red-500'><small>Email must be valid</small></div>}
-                    </div>
+                    <label htmlFor='email' className='block mb-3'>Email</label>
+                    <Input id='email' type='email' addClassName={errors?.email && 'border-red-500'} {...register('email', {
+                        required: 'Email is required',
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: 'Email must be valid',
+                        }
+                    })} />
+                    {errors?.email && <div className='text-red-500'><small>{errors?.email?.message}</small></div>}
                 </div>
                 <div className='mb-4'>
-                    <div className='mb-3'>Password</div>
-                    <div>
-                        <Input type="password" name="password" addClassName='w-full' value={formData.password} onChange={(e) => handleFormChange(e)} />
-                    </div>
+                    <label htmlFor='password' className='block mb-3'>Password</label>
+                    <Input id='password' type='password' addClassName={errors?.password && 'border-red-500'} {...register('password', {
+                        required: 'Password is required',
+                    })} />
+                    {errors?.password && <div className='text-red-500'><small>{errors?.password?.message}</small></div>}
                 </div>
                 <div>
-                    <button type='submit' className={`btn btn-primary w-full ${isDisableSubmit ? 'disabled' : ''}`}>{isPending ? 'Please wait...' : 'Log In'}</button>
+                    <button type='submit' className={`btn btn-primary w-full ${isPending ? 'disabled' : ''}`}>{isPending ? 'Please wait...' : 'Log In'}</button>
                 </div>
             </form>
         </div>

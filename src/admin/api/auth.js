@@ -1,7 +1,7 @@
 import api from '../utils/api';
 import { deleteAuth, storeAuthToken, storeAuthUser } from '../utils/token';
 
-export async function login({ formData }) {
+export async function login(formData) {
   const response = await api.post('/admin/login', JSON.stringify(formData));
 
   if (response.status >= 500) {

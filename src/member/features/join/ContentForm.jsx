@@ -55,44 +55,59 @@ export default function ContentForm() {
                 <div className='mb-4'>
                     <label htmlFor='name' className='block mb-3'>Name</label>
                     <Input id='name' addClassName={errors?.name && 'border-red-500'} {...register('name', {
-                        minLength: 2,
-                        maxLength: 255,
-                        required: true,
+                        minLength: {
+                            value: 2,
+                            message: 'Minimum length is 2',
+                        },
+                        maxLength: {
+                            value: 255,
+                            message: 'Maximum length is 255',
+                        },
+                        required: 'Name is required',
                     })} />
-                    {errors?.name?.type === 'minLength' && <div className='text-red-500'><small>Minimum length is 2</small></div>}
-                    {errors?.name?.type === 'maxLength' && <div className='text-red-500'><small>Maximum length is 255</small></div>}
+                    {errors?.name && <div className='text-red-500'><small>{errors?.name?.message}</small></div>}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='email' className='block mb-3'>Email</label>
                     <Input type='email' id='email' addClassName={errors?.email && 'border-red-500'} {...register('email', {
-                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        maxLength: 255,
-                        required: true,
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: 'Email must be valid',
+                        },
+                        maxLength: {
+                            value: 255,
+                            message: 'Maximum length is 255',
+                        },
+                        required: 'Email is required',
                     })} />
-                    {errors?.email?.type === 'pattern' && <div className='text-red-500'><small>Email must be valid</small></div>}
-                    {errors?.email?.type === 'maxLength' && <div className='text-red-500'><small>Maximum length is 255</small></div>}
+                    {errors?.email && <div className='text-red-500'><small>{errors?.email?.message}</small></div>}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='password' className='block mb-3'>Password</label>
                     <Input type='password' id='password' addClassName={errors?.password && 'border-red-500'} {...register('password', {
-                        minLength: 6,
-                        maxLength: 255,
-                        required: true,
+                        minLength: {
+                            value: 6,
+                            message: 'Minimum length is 6',
+                        },
+                        maxLength: {
+                            value: 255,
+                            message: 'Maximum length is 255',
+                        },
+                        required: 'Password is required',
                     })} />
-                    {errors?.password?.type === 'minLength' && <div className='text-red-500'><small>Minimum length is 6</small></div>}
-                    {errors?.password?.type === 'maxLength' && <div className='text-red-500'><small>Maximum length is 255</small></div>}
+                    {errors?.password && <div className='text-red-500'><small>{errors?.password?.message}</small></div>}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='password_confirmation' className='block mb-3'>Confirm Password</label>
                     <Input type='password' id='password_confirmation' addClassName={errors?.password_confirmation && 'border-red-500'} {...register('password_confirmation', {
-                        required: true,
+                        required: 'Confirm Password is required',
                         validate: (val) => {
                             if (watch('password') !== val) {
                                 return "Confirm Password must be the same with Password";
                             }
                         },
                     })} />
-                    {errors?.password_confirmation?.type === 'validate' && <div className='text-red-500'><small>{errors?.password_confirmation?.message}</small></div>}
+                    {errors?.password_confirmation && <div className='text-red-500'><small>{errors?.password_confirmation?.message}</small></div>}
                 </div>
                 <div>
                     <PrimaryButton type='submit' addClassName={`w-full ${isPending ? 'disabled' : ''}`}>{isPending ? 'Please wait...' : 'Join'}</PrimaryButton>
