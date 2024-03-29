@@ -53,7 +53,7 @@ export default function ContentForm() {
             <form onSubmit={handleSubmit(onSubmit)} className='mb-6'>
                 <div className='mb-4'>
                     <label htmlFor='email' className='block mb-3'>Email</label>
-                    <Input id='email' type='email' {...register('email', {
+                    <Input id='email' type='email' addClassName={errors?.email && 'border-red-500'} {...register('email', {
                         required: true,
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
                     })} />
@@ -61,7 +61,7 @@ export default function ContentForm() {
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='password' className='block mb-3'>Password</label>
-                    <Input id='password' name='password' type='password' {...register('password', {
+                    <Input id='password' name='password' type='password' addClassName={errors?.password && 'border-red-500'} {...register('password', {
                         required: true,
                     })} />
                     {errors?.password?.type === 'required' && <div className='text-red-500'><small>Password is required</small></div>}
