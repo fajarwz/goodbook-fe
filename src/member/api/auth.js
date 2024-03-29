@@ -1,7 +1,7 @@
 import api from '../utils/api';
 import { deleteAuth, storeAuthToken, storeAuthUser } from '../utils/token';
 
-export async function signIn({ formData }) {
+export async function signIn(formData) {
   const response = await api.post('/member/login', JSON.stringify(formData));
 
   if (response.status >= 500) {
