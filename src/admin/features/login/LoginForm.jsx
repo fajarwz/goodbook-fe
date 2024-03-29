@@ -8,6 +8,7 @@ export default function LoginForm({ handleSubmit, isError, error, isPending, for
     const [errorNotif, setErrorNotif] = useState()
     const [isDisableSubmit, setIsDisableSubmit] = useState(false)
     const emailInput = useRef(null)
+    const [invalidInput, setInvalidInput] = useState({})
 
     useEffect(() => {
         const checkSubmitFormValidation = () => {
@@ -39,14 +40,17 @@ export default function LoginForm({ handleSubmit, isError, error, isPending, for
                 isValid = validateEmail(formData.email);
             }
 
-            if (!isValid && formData.email) {
-                setErrorNotif({
-                    title: '',
-                    message: 'Email must be valid.',
+            if (!isValid) {
+                setInvalidInput({
+                    ...invalidInput,
+                    email: 'Email must be valid.',
                 })
             }
             else {
-                if (!isError) setErrorNotif()
+                setInvalidInput({
+                    ...invalidInput,
+                    email: '',
+                })
             }
         }
 
@@ -57,7 +61,7 @@ export default function LoginForm({ handleSubmit, isError, error, isPending, for
         checkSubmitFormValidation()
         checkInput()
         checkSubmit()
-    }, [formData, errorNotif, isError, error, isPending, isDisableSubmit])
+    }, [error, formData.email, formData.password, invalidInput, isError, isPending])
 
     useEffect(() => {
         const emailFocus = () => {
@@ -82,7 +86,8 @@ export default function LoginForm({ handleSubmit, isError, error, isPending, for
                 <div className='mb-4'>
                     <div className='mb-3'>Email</div>
                     <div>
-                        <Input type="email" name="email" addClassName='w-full' ref={emailInput} value={formData.email} onChange={(e) => handleFormChange(e)} />
+                        <Input type="email" name="email" addClassName={`w-full ${invalidInput.email ? 'border-red-500' : ''}`} ref={emailInput} value={formData.email} onChange={(e) => handleFormChange(e)} />
+                        {invalidInput.email && <div className='text-red-500'><small>Email must be valid</small></div>}
                     </div>
                 </div>
                 <div className='mb-4'>
